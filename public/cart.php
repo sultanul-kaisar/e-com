@@ -41,6 +41,8 @@ if(isset($_GET['remove'])) {
     $_SESSION['product_' . $_GET['remove']]--;
     
     if($_SESSION['product_' . $_GET['remove']] <1) {
+        unset($_SESSION['item_total']);
+        unset($_SESSION['item_quantity']);
         redirect("checkout.php");
     } else {
 
@@ -53,6 +55,9 @@ if(isset($_GET['remove'])) {
 if(isset($_GET['delete'])) {
 
     $_SESSION['product_' . $_GET['delete']] = 0;
+    unset($_SESSION['item_total']);
+    unset($_SESSION['item_quantity']);
+
     redirect("checkout.php");
 
 }
@@ -61,40 +66,68 @@ if(isset($_GET['delete'])) {
 
 function cart() {
 
-    $query = query("SELECT * FROM products");
-    confirm($query);
+    $total = 0;
+    $item_quantity = 0;
+    
+    foreach ($_SESSION as $name => $value){
 
-    while($row = fetch_array($query)){
+        if ($value >0) {
+
+            if(substr($name, 0, 8) == "product_") {
+
+                // $length = strlen($name - 8);
+
+                $id = substr($name, 8);
 
 
-        $product =<<<DELIMETER
+                $query = query("SELECT * FROM products WHERE product_id = " . escape_string($id). "");
+                confirm($query);
 
-        <tr>
-            <td >
-                <div >
-                    <img src="img/shop-cart/cp-1.jpg" alt="">
-                    <h6>{$row['product_title']}</h6>
-                    <div >
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                    </div>
-                </div>
-            </td>
-            <td >$ 150.0</td>
-            <td >5</td>
-            <td >$ 300.0</td>
-            <td ><a class=" btn btn-warning" href="cart.php?remove={$row['product_id']}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a> <a class=" btn btn-success" href="cart.php?add={$row['product_id']}"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
-           
-            <td ><a class=" btn btn-danger" href="cart.php?delete={$row['product_id']}"><span class="icon_close"></span></a></td>
-        </tr>
+                while ($row = fetch_array($query)) {
 
-        DELIMETER;
+                    $sub = $row['product_price'] * $value;
 
-        echo $product;
+                    $item_quantity += $value;
+
+                    $product =<<<DELIMETER
+
+                    <tr>
+                        <td >
+                            <div >
+                                <img src="img/shop-cart/cp-1.jpg" alt="">
+                                <h6>{$row['product_title']}</h6>
+                                <div >
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                        </td>
+                        <td >&#2547; {$row['product_price']}</td>
+                        <td >{$value}</td>
+                        <td >&#2547; {$sub}</td>
+                        <td ><a class=" btn btn-warning" href="cart.php?remove={$row['product_id']}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a> <a class=" btn btn-success" href="cart.php?add={$row['product_id']}"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
+                    
+                        <td ><a class=" btn btn-danger" href="cart.php?delete={$row['product_id']}"><span class="icon_close"></span></a></td>
+                    </tr>
+
+                    DELIMETER;
+
+                    echo $product;
+                    
+                }
+
+                $_SESSION['item_total'] = $total += $sub;
+                $_SESSION['item_quantity'] = $item_quantity;
+            }
+        }
+
+
     }
+
+    
 
 
 }
