@@ -17,7 +17,6 @@
                 <ul class="dropdown">
                     <li><a href="./product-details.html">Product Details</a></li>
                     <li><a href="shop-cart.php">Shop Cart</a></li>
-                    <li><a href="checkout.php">Checkout</a></li>
                     <li><a href="./blog-details.html">Blog Details</a></li>
                 </ul>
             </li>
@@ -37,7 +36,7 @@
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
-            <li><a href="cart.php"><span class="icon_bag_alt"></span>
+            <li><a href="checkout.php"><span class="icon_bag_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
         </ul>
