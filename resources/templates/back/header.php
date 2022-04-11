@@ -124,8 +124,8 @@
 									<i class="fa fa-envelope"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a href="./page-login.html" class="dropdown-item ai-icon">
-									<i class="fa fa-sign-out"></i>
+                                    <a href="logout.php" class="dropdown-item ai-icon">
+									<i class="fa fa-sign-out"></i>                                        
                                         <span class="ml-2">Logout </span>
                                     </a>
                                 </div>

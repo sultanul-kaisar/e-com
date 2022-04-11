@@ -79,7 +79,7 @@ function get_products(){
                     <ul class="product__hover">
                         <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="../resources/cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -142,7 +142,7 @@ function get_products_in_cat_page(){
                     <ul class="product__hover">
                         <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="../resources/cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -185,7 +185,7 @@ function get_products_in_shop_page(){
                     <ul class="product__hover">
                         <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a href="item.php?id={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="../resources/cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -215,26 +215,29 @@ function get_products_in_shop_page(){
 
 function login_user(){
 
-
-    if(isset($_POST['submit'])){
-        $username = escape_string($_POST['username']);
-        $password = escape_string($_POST['password']);
-
-        $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}' ");
-        confirm($query);
-
-        if(mysqli_num_rows($query) == 0 ){
-
-            set_message("Your Username or Password are wrong");
-            redirect("login.php");
-        } else {
-
-            set_message("Welcome to Admin {$username} ");
-            redirect("admin");
-        }
-
+        if(isset($_POST['submit'])){
+        
+            $username = escape_string($_POST['username']);
+            $password = escape_string($_POST['password']);
+            
+            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password }' ");
+            confirm($query);
+            
+            if(mysqli_num_rows($query) == 0) {
+            
+                set_message("Your Password or Username are wrong");
+                redirect("login.php");
+            
+        
+            } else {
+        
+                $_SESSION['username'] = $username;
+                redirect("admin");
+    
+            }  
+        
+        }   
     }
-}
 
 
 

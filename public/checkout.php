@@ -1,9 +1,6 @@
 <?php require_once("../resources/config.php") ?>
-<?php require_once("cart.php") ?>
 
 <?php include(TEMPLATE_FRONT.DS. "header.php") ?>
-
-
 
 
 
@@ -73,7 +70,7 @@
                             <li>Total <span>&#2547; <?php echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : $_SESSION['item_total'] = "0"; ?> 
                             </span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="payment.php?price=<?php echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : $_SESSION['item_total'] = "0"; ?>" class="primary-btn">Proceed to checkout</a>
                     </div>       
                 </div>
             </div>

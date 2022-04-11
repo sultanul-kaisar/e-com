@@ -1,4 +1,4 @@
-<?php require_once("../resources/config.php") ?>
+<?php require_once("config.php") ?>
 
 
 
@@ -16,12 +16,12 @@ if(isset($_GET['add'])) {
 
         if($row['product_quantity'] != $_SESSION['product_' . $_GET['add']]) {
             $_SESSION['product_' . $_GET['add']]+=1;
-            redirect("checkout.php");
+            redirect("../public/checkout.php");
 
         } else {
 
-            set_message("We only have" . $row['product_quantity'] . " " . " available");
-            redirect("checkout.php");
+            set_message("We only have" . " " . $row['product_quantity'] . " " . " available");
+            redirect("../public/checkout.php");
         }
     }
 
@@ -43,10 +43,10 @@ if(isset($_GET['remove'])) {
     if($_SESSION['product_' . $_GET['remove']] <1) {
         unset($_SESSION['item_total']);
         unset($_SESSION['item_quantity']);
-        redirect("checkout.php");
+        redirect("../public/checkout.php");
     } else {
 
-        redirect("checkout.php");
+        redirect("../public/checkout.php");
     }
 }
 
@@ -58,7 +58,7 @@ if(isset($_GET['delete'])) {
     unset($_SESSION['item_total']);
     unset($_SESSION['item_quantity']);
 
-    redirect("checkout.php");
+    redirect("../public/checkout.php");
 
 }
 
@@ -108,9 +108,9 @@ function cart() {
                         <td >&#2547; {$row['product_price']}</td>
                         <td >{$value}</td>
                         <td >&#2547; {$sub}</td>
-                        <td ><a class=" btn btn-warning" href="cart.php?remove={$row['product_id']}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a> <a class=" btn btn-success" href="cart.php?add={$row['product_id']}"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
+                        <td ><a class=" btn btn-warning" href="../resources/cart.php?remove={$row['product_id']}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a> <a class=" btn btn-success" href="../resources/cart.php?add={$row['product_id']}"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></td>
                     
-                        <td ><a class=" btn btn-danger" href="cart.php?delete={$row['product_id']}"><span class="icon_close"></span></a></td>
+                        <td ><a class=" btn btn-danger" href="../resources/cart.php?delete={$row['product_id']}"><span class="icon_close"></span></a></td>
                     </tr>
 
                     DELIMETER;
