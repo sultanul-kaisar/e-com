@@ -26,17 +26,31 @@
     </nav>
 </div>
 <div class="col-lg-3">
-    <div class="header__right">
-        <div class="header__right__auth">
-            <a href="login.php">Login</a>
-            <a href="register.php">Register</a>
-        </div>
+    <div class="header__menu">        
         <ul class="header__right__widget">
+            <?php
+                if(isset($_SESSION['username'])){
+            ?>
+            <li><a href="#"><?php 
+
+            echo $_SESSION['username'];?></a>
+                <ul class="dropdown">
+                    <li><a href="profile.php">Profile</a></li>
+                    <li><a href="logout.php">LOGOUT</a></li>
+                </ul>
+            </li>
+
+        <?php } else { ?>
+            <a href="login.php">Login /</a>
+            <a href="register.php">Register</a>
+
+        <?php } ?>
+
             <li><span class="icon_search search-switch"></span></li>
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
-            <li><a href="checkout.php"><span class="icon_bag_alt"></span>
+            <li><a href="cart.php"><span class="icon_bag_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
         </ul>

@@ -24,17 +24,17 @@
 
 				<?php 
 				
-				if($_SERVER['REQUEST_URI'] == "/admin/" || $_SERVER['REQUEST_URI'] == "/admin/index.php")  {
+				if($_SERVER['REQUEST_URI'] == "/admin/" || $_SERVER['REQUEST_URI'] == "/admin/index.php?dashboard")  {
 
 
-                    include(TEMPLATE_BACK . "/admin_content.php");
+                    include(TEMPLATE_BACK . "/dashboard.php");
 
                 }
 
 
-				if (isset($_GET['admin_content'])) {
+				if (isset($_GET['dashboard'])) {
 					
-					include(TEMPLATE_BACK . "\admin_content.php");
+					include(TEMPLATE_BACK . "\dashboard.php");
 				}
 
 				if (isset($_GET['orders'])) {

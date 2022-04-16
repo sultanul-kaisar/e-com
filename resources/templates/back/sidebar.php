@@ -5,11 +5,13 @@
     <div class="deznav-scroll">
         <a href="javascript:void(0)" class="add-menu-sidebar" data-toggle="modal" data-target="#addOrderModalside" >+ New Event</a>
         <ul class="metismenu" id="menu">
-            <li><a href="index.php?admin_content"><i class="flaticon-381-networking"></i>Dashboard</a></li>                    
+            <li><a href="index.php?dashboard"><i class="flaticon-381-networking"></i>Dashboard</a></li>                    
             
             <li><a href="index.php?orders"><i class="fa fa-cube"></i>Orders</a></li>
            
             <li><a href="index.php?products"><i class="fa fa-cube"></i>Products</a></li>
+
+            <li><a href="index.php?categories"><i class="fa fa-cube"></i>Categories</a></li>
 
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-television"></i>

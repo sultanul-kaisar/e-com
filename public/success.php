@@ -1,16 +1,21 @@
+<?php require_once("../resources/config.php"); ?>
 
 
+<section class="shop-cart spad">
+
+    <div class="container">
+        
+        <h1 class="text-center">Successfuly payment done. Thank You for shopping with us! </h1>
+
+    </div>
+</section>
 
 <?php
+$query1 = query("SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}");
+$query2 = query("SELECT * FROM profiles WHERE user_id = {$_SESSION['user_id']}");
 
-
-echo "Transaction Succeeded";
-
-
-
-
-
-
+$user = mysqli_fetch_assoc($query1);
+$profile = mysqli_fetch_assoc($query2);
 
 
 
@@ -68,12 +73,21 @@ if($code == 200 && !( curl_errno($handle)))
 	$gw_version = $result->gw_version;
 
 
+    // echo $status. " " .$tran_date. " " .$tran_id. " " .$card_type;
 
-    echo $status. " " .$tran_date. " " .$tran_id. " " .$card_type;
+
+$order_id = $_GET['order_id'];
+
+$query1 = query("UPDATE orders SET status='{$status}', transaction_id='{$tran_id}', currency='BDT', order_date='{$tran_date}' WHERE id={$order_id}");
+
+
+session_destroy();
+redirect("index.php");
 
 } else {
 
 	echo "Failed to connect with SSLCOMMERZ";
+	redirect("checkout.php");
 }
 
 

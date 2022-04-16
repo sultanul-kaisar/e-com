@@ -79,7 +79,7 @@ function get_products(){
                     <ul class="product__hover">
                         <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="../resources/cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="../resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -142,7 +142,7 @@ function get_products_in_cat_page(){
                     <ul class="product__hover">
                         <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="../resources/cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="../resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -185,7 +185,7 @@ function get_products_in_shop_page(){
                     <ul class="product__hover">
                         <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="../resources/cart.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="../resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -220,7 +220,7 @@ function login_user(){
             $username = escape_string($_POST['username']);
             $password = escape_string($_POST['password']);
             
-            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password }' ");
+            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password }'  AND type = 3");
             confirm($query);
             
             if(mysqli_num_rows($query) == 0) {
@@ -230,14 +230,55 @@ function login_user(){
             
         
             } else {
-        
-                $_SESSION['username'] = $username;
-                redirect("admin");
+                $data = mysqli_fetch_assoc($query);
+
+                
+
+
+                $_SESSION['username'] = $data['username'];
+                $_SESSION['user_id'] = $data['user_id'];
+
+                // echo '<pre>';
+                // print_r($_SESSION);
+                // exit;
+
+                redirect("index.php");
     
             }  
         
         }   
     }
+
+
+
+function register_user(){
+
+    $db = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+
+        if(isset($_POST['submit'])){
+            $username = $_POST['username'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $options = array("cost"=>4);
+            $hashPassword = password_hash($password, PASSWORD_BCRYPT,$options);         
+
+            
+
+            $query = "INSERT INTO users (username,email, password) VALUES ('$username', '$email', '$hashPassword')";
+            mysqli_query($db,$query)or die ('Error in updating Database');
+
+            $result = mysqli_query($db, $query);
+            if($result)
+            {
+                echo "Registration successfully";
+            }
+                  
+            
+       }
+}
+
+    
 
 
 
@@ -281,6 +322,89 @@ function send_message(){
 
 
 
+function login_admin(){
+
+    // echo "<pre>";
+    // print_r($_POST);
+    // exit;
+
+        if(isset($_POST['submit'])){
+
+        
+            $username = escape_string($_POST['username']);
+            $password = escape_string($_POST['password']);
+            
+            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password }'  AND type != 3");
+            confirm($query);
+
+            // echo '<pre>';
+            //     print_r(mysqli_num_rows($query));
+            //     exit;
+            
+            if(mysqli_num_rows($query) == 0) {
+            
+                set_message("Your Password or Username are wrong");
+                redirect("login.php");
+            
+        
+            } else {
+                $data = mysqli_fetch_assoc($query);
+
+                
+
+
+                $_SESSION['username'] = $data['username'];
+                $_SESSION['firstName'] = $data['firstName'];
+                $_SESSION['user_id'] = $data['user_id'];
+
+                
+
+                redirect("index.php?dashboard");
+    
+            }  
+        
+        }   
+    }
+
+
+
+
+
+function display_orders() {
+
+    $query = query("SELECT * FROM orders");
+    confirm($query);
+
+
+    while($row = fetch_array($query)){
+
+        $orders = <<<DELIMETER
+
+        <tr>
+            <td><strong>{$row['order_id']}</strong></td>
+            <td>{$row['amount']}</td>
+            <td>{$row['transaction_id']}</td>
+            <td>{$row['currency']}</td>
+            <td>{$row['status']}</td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="../../resources/templates/back/delete_order.php?id={$row['order_id']}">Delete</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        DELIMETER;
+
+
+        echo $orders;
+
+    }
+}
 
 
 

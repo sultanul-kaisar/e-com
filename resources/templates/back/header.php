@@ -11,6 +11,9 @@
     <link href="./vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
 	<link href="./vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
+
+     <!-- Summernote -->
+    <link href="./vendor/summernote/summernote.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -38,7 +41,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.php" class="brand-logo">
+            <a href="index.php?dashboard" class="brand-logo">
                 <img class="logo-abbr" src="./images/logo.png" alt="">
                 <img class="logo-compact" src="./images/logo-text.png" alt="">
                 <img class="brand-title" src="./images/logo-text.png" alt="">

@@ -43,6 +43,12 @@
 	
 	<!-- Dashboard 1 -->
 	<script src="./js/dashboard/dashboard-1.js"></script>
+
+	<!-- Summernote -->
+    <script src="./vendor/summernote/js/summernote.min.js"></script>
+    
+    <!-- Summernote init -->
+    <script src="./js/plugins-init/summernote-init.js"></script>
 	
 	<script>
 		function carouselReview(){

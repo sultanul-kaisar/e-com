@@ -1,82 +1,194 @@
-<?php require_once("../resources/config.php") ?>
+<?php require_once("../resources/config.php"); ?>
 
-<?php include(TEMPLATE_FRONT.DS. "header.php") ?>
+<?php include(TEMPLATE_FRONT.DS. "header.php"); ?>
+<?php 
+
+	if (!isset($_SESSION['user_id'])) {
+		redirect("login.php");
+	}
+
+ ?>
+
+<?php
+	$query1 = query("SELECT * FROM profiles WHERE user_id = " . $_SESSION['user_id']);
+	$profile = mysqli_fetch_assoc($query1);
+
+	$query2 = query("SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}");
+	$user = mysqli_fetch_assoc($query2);
+
+	// echo "<pre>";
+	// print_r($profile);
+	// echo "<br/";
+	// print_r($user);
+	// exit
+?>
 
 
-
-
-
-
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
+<!-- Checkout Section Begin -->
+    <section class="checkout spad">
         <div class="container">
             <div class="row">
-                <h4 class="text-center bg-danger"><?php display_message(); ?></h4>
                 <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="index.php"><i class="fa fa-home"></i> Home</a>
-                        <span>Checkout</span>
-                    </div>
+                    <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a href="#">Have a coupon?</a> Click
+                    here to enter your code.</h6>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
+            <form method="post" action="payment.php?price=<?php echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : $_SESSION['item_total'] = "0"; ?>" class="checkout__form">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h5>Shipping Address</h5>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>First Name <span>*</span></p>
+                                    <input type="text" name="firstName" value="<?php
+                                    if(empty($profile['firstName'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['firstName'];  
+                                    } ?>" placeholder="Enter your First Name!">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Last Name <span>*</span></p>
+                                    <input type="text" name="lastName" value="<?php
+                                    if(empty($profile['lastName'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['lastName'];  
+                                    } ?>" placeholder="Edit your Last Name!">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                            	<div class="checkout__form__input">
+                                    <p>Street <span>*</span></p>
+                                    <input type="text" name="cus_street" value="<?php
+                                    if(empty($profile['street'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['street'];  
+                                    } ?>" placeholder="Edit your street address!">
+                                </div>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Town/City <span>*</span></p>
+                                    <input type="text" name="cus_city" value="<?php
+                                    if(empty($profile['city'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['city'];  
+                                    } ?>" placeholder="Edit your city!">
+                                </div>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>State <span>*</span></p>
+                                    <input type="text" name="cus_state" value="<?php
+                                    if(empty($profile['state'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['state'];  
+                                    } ?>" placeholder="Edit your state!">
+                                </div>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Country <span>*</span></p>
+                                    <input type="text" name="cus_country" value="<?php
+                                    if(empty($profile['country'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['country'];  
+                                    } ?>" placeholder="Enter your country!">
+                                </div>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Postcode/Zip <span>*</span></p>
+                                    <input type="text" name="postcode" value="<?php
+                                    if(empty($profile['postal_code'])) {
+                                        echo "";                                
+                                        } else {
+                                          echo $profile['postal_code'];  
+                                    } ?>" placeholder="Enter your Postcode!">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Phone <span>*</span></p>
+                                    <input type="text" name="cus_phone" value="<?php
+                                if(empty($profile['mobile'])) {
+                                    echo "";                                
+                                    } else {
+                                      echo $profile['mobile'];  
+                                    } ?>" placeholder="Enter your First Name!">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Email <span>*</span></p>
+                                    <input type="text" name="email" value="<?php echo $user['email'] ?>">
+                                </div>
+                            </div>
+                       		<!-- <div class="col-lg-12">
+                                <div class="checkout__form__checkbox">
+                                    <label for="acc">
+                                        Create an acount?
+                                        <input type="checkbox" id="acc">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <p>Create am acount by entering the information below. If you are a returing
+                                        customer login at the <br />top of the page</p>
+                                    </div>
+                                    <div class="checkout__form__input">
+                                        <p>Account Password <span>*</span></p>
+                                        <input type="text">
+                                    </div>
+                                    <div class="checkout__form__checkbox">
+                                        <label for="note">
+                                            Note about your order, e.g, special noe for delivery
+                                            <input type="checkbox" id="note">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="checkout__form__input">
+                                        <p>Oder notes <span>*</span></p>
+                                        <input type="text"
+                                        placeholder="Note about your order, e.g, special noe for delivery">
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="checkout__order">
+                                <h5>Your order</h5>
+                                <div class="checkout__order__product">
+		                            <ul>
+		                                <li>
+		                                    <span class="top__text">Product</span>
+		                                    <span class="top__text__right">Total</span>
+		                                    <?php checkout(); ?>
+		                                </li>                                
+                            		</ul>
+                        		</div>
+                                
 
-    <section class="shop-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shop__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php cart(); ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="index.php">Continue Shopping</a>
-                    </div>
+	                            <div class="checkout__order__total">
+		                            <ul>
+		                                <li>Subtotal <span>&#2547; <?php echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : $_SESSION['item_total'] = "0"; ?> </span></li>
+		                            </ul>
+		                        </div>
 
-                    <div class="col-lg-6">
-                        <div class="discount__content">
-                            <h6>Discount codes</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Enter your coupon code">
-                                <button type="submit" class="site-btn">Apply</button>
-                            </form>
+                                
+                                <button type="submit" class="site-btn">Place oder</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__total__procced">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <li>Items <span><?php echo isset($_SESSION['item_quantity']) ? $_SESSION['item_quantity'] : $_SESSION['item_quantity'] = "0"; ?></span></li>
-                            <li>Total <span>&#2547; <?php echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : $_SESSION['item_total'] = "0"; ?> 
-                            </span></li>
-                        </ul>
-                        <a href="payment.php?price=<?php echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : $_SESSION['item_total'] = "0"; ?>" class="primary-btn">Proceed to checkout</a>
-                    </div>       
-                </div>
+                </form>
             </div>
-        </div>
-    </section>
+        </section>
+        <!-- Checkout Section End -->
 
-       
-
-        <?php include(TEMPLATE_FRONT.DS. "footer.php") ?>
+<?php include(TEMPLATE_FRONT.DS. "footer.php") ?>

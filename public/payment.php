@@ -1,5 +1,46 @@
-<?php
+<?php require_once("../resources/config.php"); ?>
 
+
+<?php
+$query = query("INSERT INTO orders (user_id, amount)
+                            VALUES ('{$_SESSION['user_id']}', '{$_GET["price"]}')");
+
+$query3 = query("SELECT MAX(id) AS id FROM orders");
+$last_insert_id = mysqli_fetch_assoc($query3)['id'];
+
+
+confirm($query);
+
+
+foreach ($_SESSION as $name => $value){
+
+        if ($value >0) {
+
+            if(substr($name, 0, 8) == "product_") {
+
+                // $length = strlen($name - 8);
+
+                $id = substr($name, 8);
+
+
+                $query = query("SELECT * FROM products WHERE product_id = " . escape_string($id). "");
+                confirm($query);
+
+                while ($row = fetch_array($query)) {
+                	$amount = $row['product_price'] * $value;
+
+                	// echo "<pre>";
+                	// print_r($row);
+                	// exit;
+
+                $query = query("INSERT INTO order_details (order_id, user_id, product_id, quantity, rate, amount)
+                            VALUES ( '{$last_insert_id}','{$_SESSION['user_id']}', '{$row['product_id']}','$value', '{$row['product_price']}','$amount')");	
+
+            }
+        }
+
+    }
+}
 
 
 $post_data = array();
@@ -8,7 +49,7 @@ $post_data['store_passwd'] = "skais624df84bd38f5@ssl";
 $post_data['total_amount'] = $_GET["price"];
 $post_data['currency'] = "BDT";
 $post_data['tran_id'] = "SSLCZ_TEST_".uniqid();
-$post_data['success_url'] = "https://localhost/Personal/ecom/public/success.php";
+$post_data['success_url'] = "https://localhost/Personal/ecom/public/success.php?order_id={$last_insert_id}";
 $post_data['fail_url'] = "http://localhost/new_sslcz_gw/fail.php";
 $post_data['cancel_url'] = "http://localhost/new_sslcz_gw/cancel.php";
 # $post_data['multi_card_name'] = "mastercard,visacard,amexcard";  # DISABLE TO DISPLAY ALL AVAILABLE
