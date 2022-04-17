@@ -1,18 +1,21 @@
 <?php require_once("../../resources/config.php") ?>
+<?php include(TEMPLATE_BACK . DS . "/header.php") ?>
 
-<?php add_product(); ?>
+<?php include(TEMPLATE_BACK . DS . "/sidebar.php") ?>
 
+<div class="content-body">
+    <!-- row -->
+	<div class="container-fluid">	
 
+		<div class="page-titles">
+		    <ol class="breadcrumb">
+		        <li class="breadcrumb-item"><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		        <li class="breadcrumb-item active"><a href="javascript:void(0)">Edit Product</a></li>      
 
-<div class="page-titles">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Add Product</a></li>      
-
-    </ol>
-    
-</div>   
-<div class="basic-form"> 
+		    </ol>
+		    
+		</div>   
+		<div class="basic-form"> 
     <form action="" method="post" enctype="multipart/form-data">
         <div class="row col-xl-12"> 
             <div class="col-xl-8 col-lg-8" style="margin-top:20px;">
@@ -45,14 +48,16 @@
                 <div class="card">
                     <div class="card-body">                       
 
-                        <input type="submit" name="publish" class="btn btn-outline-success " value="Publish">
+                        <button type="button" class="btn btn-outline-success float-right ml-2"><a href="index.php?products">Publish</a></button>
                         <button type="button" class="btn btn-outline-success float-right"><a href="index.php?products">Back </a></button>
-                        <h4 class="card-title" style="margin-top:20px">Product Category</h4>
+                        <h4 class="card-title">Product Category</h4>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
-                                <select name="product_category_id" class="mr-sm-2 default-select" id="inlineFormCustomSelect">
+                                <select class="mr-sm-2 default-select" id="inlineFormCustomSelect">
                                     <option selected>Select Category</option>
-                                    <?php show_category_name() ?>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
                                 </select>
                             </div>
                         </div>
@@ -65,18 +70,25 @@
                         </div>
 
                         <h4 class="card-title" style="margin-top:10px;">Product Quantity</h4>
-                        <div class="form-group ">
-                            <input style="border-color: yellowgreen;" type="number" name="product_quantity" class="form-control input-default " placeholder="Enter the product quantity">
+                        <div class="form-row align-items-center">
+                            <div class="form-group ">
+                                <input style="border-color: yellowgreen;" type="number" name="product_quantity" class="form-control input-default " placeholder="Enter the product quantity">
+                            </div>
                         </div>
 
                         <h4 class="card-title" style="margin-top:10px;">Product Image</h4>
-                        <div class="form-group">
-                            <input name="file" type="file">
-                            <label for="product-title"></label>
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input">
+                                <label class="custom-file-label">Choose file</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>         
-</div> 
+</div>
+	</div>
+</div>
+<?php include(TEMPLATE_BACK . DS . "/footer.php") ?>
