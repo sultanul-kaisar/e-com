@@ -65,6 +65,16 @@
 					include(TEMPLATE_BACK . "\categories.php");
 				}
 
+				if (isset($_GET['add_category'])) {
+					
+					include(TEMPLATE_BACK . "\add_category.php");
+				}
+
+				if (isset($_GET['edit_category'])) {
+					
+					include(TEMPLATE_BACK . "\edit_category.php");
+				}
+
 
 				
 				

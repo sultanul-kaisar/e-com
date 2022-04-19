@@ -3,6 +3,38 @@
 
 <?php include(TEMPLATE_BACK . DS . "/sidebar.php") ?>
 
+
+<?php 
+
+    if (isset($_GET['id'])) {
+        
+        $query = query("SELECT * FROM products WHERE product_id = " . escape_string($_GET['id']) . " ");
+        confirm($query);
+
+         while($row = fetch_array($query)) {
+
+            $product_title          = escape_string($row['product_title']);
+            $product_category_id    = escape_string($row['product_category_id']);
+            $product_price          = escape_string($row['product_price']);
+            $product_description    = escape_string($row['product_description']);
+            $short_desc             = escape_string($row['short_desc']);
+            $product_quantity       = escape_string($row['product_quantity']);
+            $product_image          = escape_string($row['product_image']);
+
+
+            $product_image = display_image($row['product_image']);
+
+
+         }
+
+    }
+
+    update_product();
+
+
+
+ ?>
+
 <div class="content-body">
     <!-- row -->
 	<div class="container-fluid">	
@@ -23,7 +55,7 @@
                     <div class="card-body">                
                         <h4 class="card-title">Product Title</h4>
                         <div class="form-group">
-                            <input type="text" name="product_title" style="border-color: yellowgreen;" class="form-control input-default " placeholder="Enter the product title">
+                            <input type="text" name="product_title" value="<?php echo $product_title; ?>" style="border-color: yellowgreen;" class="form-control input-default " placeholder="Enter the product title">
                         </div>
                     </div>
 
@@ -31,14 +63,14 @@
                     <div class="card-body">
                         <h4 class="card-title">Product Descreiption</h4>
                         <div class="form-group">
-                            <textarea style="border-color: yellowgreen;" name="product_description" cols="30" rows="8" class="form-control input-default"></textarea>
+                            <textarea style="border-color: yellowgreen;" name="product_description"  cols="30" rows="8" class="form-control input-default"><?php echo $product_description; ?></textarea>
                         </div>
                     </div>
 
                     <div class="card-body">
                         <h4 class="card-title">Product Short Descreiption</h4>
                         <div class="form-group">
-                            <textarea style="border-color: yellowgreen;" name="short_desc" cols="30" rows="4" class="form-control input-default"></textarea>
+                            <textarea style="border-color: yellowgreen;" name="short_desc" cols="30" rows="4" class="form-control input-default"><?php echo $short_desc; ?> </textarea>
                         </div>
                     </div>
                     
@@ -48,16 +80,14 @@
                 <div class="card">
                     <div class="card-body">                       
 
-                        <button type="button" class="btn btn-outline-success float-right ml-2"><a href="index.php?products">Publish</a></button>
+                        <input type="submit" name="update" class="btn btn-outline-success " value="Update">
                         <button type="button" class="btn btn-outline-success float-right"><a href="index.php?products">Back </a></button>
                         <h4 class="card-title">Product Category</h4>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
                                 <select class="mr-sm-2 default-select" id="inlineFormCustomSelect">
-                                    <option selected>Select Category</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected value="<?php echo $product_category_id; ?>"> <?php echo show_category_title($product_category_id); ?></option>
+                                    <?php show_category_name() ?>
                                 </select>
                             </div>
                         </div>
@@ -66,13 +96,13 @@
                         
                         <h4 class="card-title">Product Price</h4>
                         <div class="form-group">
-                            <input style="border-color: yellowgreen;" type="text" name="product_price" class="form-control input-default " placeholder="Enter the product price">
+                            <input style="border-color: yellowgreen;" type="text" name="product_price" value=" <?php echo $product_price; ?>" class="form-control input-default " placeholder="Enter the product price">
                         </div>
 
                         <h4 class="card-title" style="margin-top:10px;">Product Quantity</h4>
                         <div class="form-row align-items-center">
                             <div class="form-group ">
-                                <input style="border-color: yellowgreen;" type="number" name="product_quantity" class="form-control input-default " placeholder="Enter the product quantity">
+                                <input style="border-color: yellowgreen;" type="number" name="product_quantity" value="<?php echo $product_quantity; ?>" class="form-control input-default " placeholder="Enter the product quantity">
                             </div>
                         </div>
 
@@ -80,9 +110,10 @@
                         <div class="input-group mb-3">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input">
-                                <label class="custom-file-label">Choose file</label>
+                                <label class="custom-file-label">Choose file</label>         
                             </div>
                         </div>
+                        <img width="120" src="../../resources/<?php echo $product_image; ?> ">
                     </div>
                 </div>
             </div>
