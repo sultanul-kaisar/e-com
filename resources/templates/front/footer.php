@@ -92,6 +92,11 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/jquery.nicescroll.min.js"></script>
 <script src="js/main.js"></script>
+
+<!-- Datatable -->
+<script src="./vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="./js/plugins-init/datatables.init.js"></script>
+
 </body>
 
 </html>

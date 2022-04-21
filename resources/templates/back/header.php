@@ -111,8 +111,11 @@
                                 </a>
 							</li>
                             <li class="nav-item dropdown header-profile">
+                                <?php
+                                        if(isset($_SESSION['admin'])){
+                                    ?>
                                 <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
-                                    <img src="images/profile/17.jpg" width="20" alt=""/>
+                                    <h4><?php echo $_SESSION['name'] ?></h4>
 									<!-- <div class="header-info">
 										<span class="text-black"><strong>Brian Lee</strong></span>
 										<p class="fs-12 mb-0">Admin</p>
@@ -132,6 +135,7 @@
                                         <span class="ml-2">Logout </span>
                                     </a>
                                 </div>
+                            <?php } ?>
                             </li>
                         </ul>
                     </div>

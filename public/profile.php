@@ -42,7 +42,7 @@
                 <div class="d-flex justify-content-center mb-4">
                     <div class="profile-image-outer-container">
                         <div class="profile-image-inner-container bg-color-primary">
-                            <img src="img/product/product-1.jpg" alt="Avatar" style="width:150px; border-radius: 20%;">
+                            <img src="../../resources/<?php echo $product_image; ?> " alt="" style="width:150px; border-radius: 20%;">
                             <span class="profile-image-button bg-color-dark">
                                 <i class="fas fa-camera text-light"></i>
                             </span>

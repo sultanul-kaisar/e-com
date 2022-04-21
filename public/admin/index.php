@@ -6,7 +6,7 @@
 
 <?php 
 
-	if (!isset($_SESSION['username'])) {
+	if (!isset($_SESSION['admin'])) {
 		redirect("../../public");
 	}
 
@@ -27,7 +27,7 @@
 				if($_SERVER['REQUEST_URI'] == "/admin/" || $_SERVER['REQUEST_URI'] == "/admin/index.php?dashboard")  {
 
 
-                    include(TEMPLATE_BACK . "/dashboard.php");
+                    include(TEMPLATE_BACK . "\dashboard.php");
 
                 }
 
@@ -73,6 +73,11 @@
 				if (isset($_GET['edit_category'])) {
 					
 					include(TEMPLATE_BACK . "\edit_category.php");
+				}
+
+				if (isset($_GET['users'])) {
+					
+					include(TEMPLATE_BACK . "\users.php");
 				}
 
 

@@ -96,17 +96,11 @@ function cart() {
                     $product =<<<DELIMETER
 
                     <tr>
+                    <td><h6>{$row['product_title']}</h6></td>
                         <td >
                             <div >
-                                <img src="img/shop-cart/cp-1.jpg" alt="">
-                                <h6>{$row['product_title']}</h6>
-                                <div >
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
+                                <img src="../resources/uploads/{$row['product_image']}" width="80" alt="">
+                                
                             </div>
                         </td>
                         <td >&#2547; {$row['product_price']}</td>

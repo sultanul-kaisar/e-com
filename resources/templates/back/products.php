@@ -19,10 +19,10 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-responsive-md">
+                    <table class="table header-border">
                         <thead>
                             <tr>
-                                <th class="width80">Product ID</th>
+                                <th>Product ID</th>
                                 <th>Product Title</th>
                                 <th>Product Image</th>
                                 <th>Category</th>

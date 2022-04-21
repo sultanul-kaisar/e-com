@@ -31,7 +31,7 @@
                                         <?php login_admin(); ?>
                                         <div class="form-group">
                                             <label class="mb-1 text-white"><strong>username</strong></label>
-                                            <input type="text" name="username" class="form-control" >
+                                            <input type="text" name="admin" class="form-control" >
                                         </div>
                                         <div class="form-group">
                                             <label class="mb-1 text-white"><strong>Password</strong></label>
@@ -53,7 +53,7 @@
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p class="text-white">Don't have an account? <a class="text-white" href="./page-register.html">Sign up</a></p>
+                                        <!-- <p class="text-white">Don't have an account? <a class="text-white" href="./page-register.html">Sign up</a></p> -->
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,11 @@
+<?php require_once('config.php'); ?>
 <?php
 
 $upload_directory = "uploads";
+
+$upload_path = "uploads";
+
+
 
 
 //helper functions
@@ -16,6 +21,8 @@ function set_message($msg){
 }
 
 
+
+
 function display_message(){
 
     if (isset($_SESSION['message'])) {
@@ -27,17 +34,21 @@ function display_message(){
 }
 
 
+
+
 function redirect($location){
 
     header("Location: $location");
 }
 
+
+
 function query($sql){
-
     global $connection;
-
-    return mysqli_query($connection, $sql);
+    return mysqli_query($connection,$sql);
 }
+
+
 
 function confirm($result){
 
@@ -50,6 +61,8 @@ function confirm($result){
 }
 
 
+
+
 function escape_string($string){
 
     global $connection;
@@ -57,14 +70,18 @@ function escape_string($string){
     return mysqli_real_escape_string($connection, $string);
 }
 
+
+
 function fetch_array($result){
 
     return mysqli_fetch_array($result);
 }
 
+
+
 /*****************FRONT END FUNCTIONS*****************/
 
-//get products
+/**************** Get Frontend Products ***************/
 
 function get_products(){
 
@@ -367,11 +384,16 @@ function item_view() {
 function login_user(){
 
         if(isset($_POST['submit'])){
+
+            $username = ($_POST['username']);
+            $password = ($_POST['password']);
+
+            $username  = escape_string($username);
+            $password  = escape_string(md5($password));
         
-            $username = escape_string($_POST['username']);
-            $password = escape_string($_POST['password']);
             
-            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password }'  AND type = 3");
+            
+            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}' ");
             confirm($query);
             
             if(mysqli_num_rows($query) == 0) {
@@ -386,8 +408,9 @@ function login_user(){
                 
 
 
-                $_SESSION['username'] = $data['username'];
-                $_SESSION['user_id'] = $data['user_id'];
+                $_SESSION['username']   = $data['username'];
+                $_SESSION['user_id']    = $data['user_id'];
+                $_SESSION['email']      = $data['email'];
 
                 // echo '<pre>';
                 // print_r($_SESSION);
@@ -411,12 +434,13 @@ function register_user(){
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            $options = array("cost"=>4);
-            $hashPassword = password_hash($password, PASSWORD_BCRYPT,$options);         
+            $username  = escape_string($username);
+            $email     = escape_string($email);
+            $password  = escape_string(md5($password));                  
 
             
 
-            $query = "INSERT INTO users (username,email, password) VALUES ('$username', '$email', '$hashPassword')";
+            $query = "INSERT INTO users (username,email, password) VALUES ('$username', '$email', '$password')";
             mysqli_query($db,$query)or die ('Error in updating Database');
 
             $result = mysqli_query($db, $query);
@@ -429,35 +453,63 @@ function register_user(){
        }
 }
 
+
+/********************** Edit Profile ***********************/
+
+function edit_profile() {
+
+
+    if(isset($_POST['update'])){
+
+        $firstName      = escape_string($_POST['firstName']);
+        $lastName       = escape_string($_POST['lastName']);
+        $street         = escape_string($_POST['street']);
+        $city           = escape_string($_POST['city']);
+        $state          = escape_string($_POST['state']);
+        $postal_code    = escape_string($_POST['postal_code']);
+        $country        = escape_string($_POST['country']);
+        $mobile         = escape_string($_POST['mobile']);
+
+
+        $photo = ($_FILES['file']['name']);
+        $image_temp_location = ($_FILES['file']['tmp_name']);
+        $final_destination = UPLOAD_DIRECTORY.DS.$photo;
+        move_uploaded_file($image_temp_location ,$final_destination);
+
+       
+        $query=query("INSERT INTO profiles(firstName, lastName, street, city, state, postal_code, country, mobile, photo)VALUES('{$firstName}', '{$lastName}', '{$street}', '{$city}', '{$state}', '{$postal_code}', '{$country}', '{$mobile}', '{$photo}') WHERE user_id= {$_SESSION['user_id']} ");
+        confirm($query);
+        set_message("Profile Updated Successfully");
+        redirect("profile.php");
+
+    }
+}
+
     
 
 
 
 function send_message(){
 
-    if (isset($_POST['submit'])) {
+    if(isset($_POST['submit'])){
+
+         $to           = "s.kaisar.seu@gmail.com";
+         $from_name    = ($_POST['name']);
+         $from_email   = ($_POST['email']);
+         $from_subject = ($_POST['subject']);
+         $from_message = ($_POST['message']);
         
-        $to = "s.kaisar.seu@gmail.com";
-        $from_name = $_POST['name'];
-        $subject = $_POST['subject'];
-        $email = $_POST['email'];
-        $message = $_POST['message'];
-
-
-        $headers = "FROM: {$from_name} {$email}";
+        $headers="From:{$from_name} {$from_email}";
+        $result = mail($to,$from_subject,$from_message,$headers);
         
-        $result = mail($to, $subject, $message, $headers);
-
-        if (!$result) {
-
-            set_message("Sorry your message couldn't sent. Try again");
-            redirect("contact.php");
-        } else {
-
-            set_message("Your message successfuly sent.");
+        if(!$result){
+                set_message('Sorry we could not send your message');
+                redirect("contact.php");
+        } else{
+            
+            set_message('Your Message has been sent');
             redirect("contact.php");
         }
-
     }
 }
 
@@ -482,10 +534,13 @@ function login_admin(){
         if(isset($_POST['submit'])){
 
         
-            $username = escape_string($_POST['username']);
-            $password = escape_string($_POST['password']);
+            $admin = ($_POST['admin']);
+            $password = ($_POST['password']);
+
+            $admin  = escape_string($admin);
+            $password  = escape_string(md5($password));
             
-            $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password }'  AND type != 3");
+            $query = query("SELECT * FROM admins WHERE admin = '{$admin}' AND password = '{$password}' ");
             confirm($query);
 
             // echo '<pre>';
@@ -504,8 +559,8 @@ function login_admin(){
                 
 
 
-                $_SESSION['username'] = $data['username'];
-                $_SESSION['firstName'] = $data['firstName'];
+                $_SESSION['admin'] = $data['admin'];
+                $_SESSION['name'] = $data['name'];
                 $_SESSION['user_id'] = $data['user_id'];
 
                 
@@ -577,7 +632,7 @@ return $upload_directory  . DS . $picture;
 
 function products_in_admin() {
 
-$query = query("SELECT * FROM products");
+    $query = query("SELECT * FROM products");
     confirm($query);
 
 
@@ -616,41 +671,48 @@ $query = query("SELECT * FROM products");
     }
 
 
+
+}
+
+function last_id(){
+
+   global $connection;
+   return mysqli_insert_id($connection);  
 }
 
 
 /**************** ADD PRODUCTS IN ADMIN *******************/
 
 
-function add_product() {
+function add_product(){
 
 
-    if(isset($_POST['publish'])) {
+    if(isset($_POST['publish'])){
+
+        $product_title         = escape_string($_POST['product_title']);
+        $product_category_id   = escape_string($_POST['product_category_id']);
+        $product_price         = escape_string($_POST['product_price']);
+        $product_quantity      = escape_string($_POST['product_quantity']);
+        $product_description   = escape_string($_POST['product_description']);
+        $short_desc            = escape_string($_POST['short_desc']);
 
 
-        $product_title          = escape_string($_POST['product_title']);
-        $product_category_id    = escape_string($_POST['product_category_id']);
-        $product_price          = escape_string($_POST['product_price']);
-        $product_description    = escape_string($_POST['product_description']);
-        $short_desc             = escape_string($_POST['short_desc']);
-        $product_quantity       = escape_string($_POST['product_quantity']);
-        $product_image          = escape_string($_FILES['file']['name']);
-        $image_temp_location    = escape_string($_FILES['file']['tmp_name']);
+        $product_image = ($_FILES['file']['name']);
+        $image_temp_location = ($_FILES['file']['tmp_name']);
+        $final_destination = UPLOAD_DIRECTORY.DS.$product_image;
+        move_uploaded_file($image_temp_location ,$final_destination);
 
-        move_uploaded_file($image_temp_location  , UPLOAD_DIRECTORY . DS . $product_image);
-
-
-        $query = query("INSERT INTO products(product_title, product_category_id, product_price, product_description, short_desc, product_quantity, product_image) VALUES('{$product_title}', '{$product_category_id}', '{$product_price}', '{$product_description}', '{$short_desc}', '{$product_quantity}', '{$product_image}')");
-        
+       
+        $query=query("INSERT INTO products(product_title,product_category_id,product_price,product_description,short_desc,product_quantity,product_image)VALUES('{$product_title}','{$product_category_id}','{$product_price}','{$product_description}','{$short_desc}','{$product_quantity}','{$product_image}')");
+        $last_id=last_id();
         confirm($query);
-        set_message("New Product is Added successfully");
+        set_message("New Product with id : {$last_id}  was Added");
         redirect("index.php?products");
 
-
-        }
-
+    }
 
 }
+
 
 
 
@@ -658,22 +720,22 @@ function add_product() {
 function show_category_name(){
 
 
-$query = query("SELECT * FROM categories");
-confirm($query);
+    $query = query("SELECT * FROM categories");
+    confirm($query);
 
-while($row = fetch_array($query)) {
-
-
-$categories_options = <<<DELIMETER
-
- <option value="{$row['cat_id']}">{$row['cat_title']}</option>
+    while($row = fetch_array($query)) {
 
 
-DELIMETER;
+    $categories_options = <<<DELIMETER
 
-echo $categories_options;
+     <option value="{$row['cat_id']}">{$row['cat_title']}</option>
 
-     }
+
+    DELIMETER;
+
+    echo $categories_options;
+
+    }
 
 
 
@@ -699,45 +761,47 @@ function show_category_title($product_category_id) {
 /**************** Update PRODUCTS IN ADMIN *******************/
 
 
-function update_product() {
+function update_product(){
+    
 
+    if(isset($_POST['update'])){
 
-    if(isset($_POST['update'])) {
+        $product_title         = escape_string($_POST['product_title']);
+        $product_category_id   = escape_string($_POST['product_category_id']);
+        $product_price         = escape_string($_POST['product_price']);
+        $product_quantity      = escape_string($_POST['product_quantity']);
+        $product_description   = escape_string($_POST['product_description']);
+        $short_desc            = escape_string($_POST['short_desc']);
 
+       
+        $product_image = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+        $final_destination = UPLOAD_DIRECTORY.DS.$product_image;
+        move_uploaded_file($image_temp_location , $final_destination);
 
-        $product_title          = escape_string($_POST['product_title']);
-        $product_category_id    = escape_string($_POST['product_category_id']);
-        $product_price          = escape_string($_POST['product_price']);
-        $product_description    = escape_string($_POST['product_description']);
-        $short_desc             = escape_string($_POST['short_desc']);
-        $product_quantity       = escape_string($_POST['product_quantity']);
-        $product_image          = escape_string($_FILES['file']['name']);
-        $image_temp_location    = escape_string($_FILES['file']['tmp_name']);
-
-        if (empty($product_image)) {
-
-            $get_pic = query("SELECT product_image FROM products WHERE product_id = " . escape_string($_GET['id'])." ");
-            confirm($get_pic);
-
-            while($pic = fetch_array($get_pic)){
-                $product_image = $pic['product_image'];
-            }
             
+
+        if(empty($product_image))
+        {
+            $get_pic = query("SELECT product_image FROM products WHERE product_id =" .escape_string($_GET['id'])."");
+            confirm($get_pic);
+            $row = fetch_array($get_pic);
+            $product_image = $row['product_image'];
         }
 
-        move_uploaded_file($image_temp_location  , UPLOAD_DIRECTORY . DS . $product_image);
-
-
-        $query = "UPDATE products ". " SET product_title = '$product_title', product_category_id = '$product_category_id', product_price = '$product_price', product_description = '$product_description', short_desc = '$short_desc', product_quantity = '$product_quantity', product_image = '$product_image' WHERE product_id=" . escape_string($_GET['id']) . " ";
+          // echo '<pre>';
+          //   print_r(empty($query));
+          //   exit;  
         
-        confirm($query);
-
-        set_message("Product is updated successfully");
+        $query = query("UPDATE products SET product_title = '" . $_POST['product_title'] . "', product_category_id = '" . $_POST['product_category_id'] . "', product_price = '" . $_POST['product_price'] . "', product_quantity = '" . $_POST['product_quantity'] . "', product_description = '" . $_POST['product_description'] . "', short_desc = '" . $_POST['short_desc'] . "', product_image = '" . $_POST['product_image'] . "' WHERE product_id = ".escape_string($_GET['id'])." ");
+        
+        $result = mysqli_query($query);
+        set_message("Products has been updated !");
         redirect("index.php?products");
 
-
-        }
-
+    } else {
+        set_message("Product Update Failed");
+    }
 
 }
 
@@ -753,7 +817,7 @@ function categories_in_admin() {
     confirm($query);
 
 
-    while($row = fetch_array($query)){
+    while($row= fetch_array($query)){
 
         $category = <<<DELIMETER
 
@@ -766,7 +830,9 @@ function categories_in_admin() {
                         <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="edit-category.php?id={$row['cat_id']}">Edit</a>
+                        
+                        <a class="dropdown-item" href="edit_category.php?id={$row['cat_id']}">Edit</a>
+
                         <a class="dropdown-item" href="../../resources/templates/back/delete_category.php?delete_category&id={$row['cat_id']}">Delete</a>
                     </div>
                 </div>
@@ -805,6 +871,78 @@ function add_category() {
 
 
         }
+
+
+}
+
+
+
+/****************** Update Category *******************/
+
+function update_category(){
+
+    if(isset($_POST['update'])){
+
+        $cat_title  = escape_string($_POST['cat_title']);
+        
+
+            
+        
+        $query = query("UPDATE categories SET cat_title = '" . $_POST['cat_title'] . "' WHERE cat_id= ". escape_string($_GET['id']) ." ");
+
+
+        $result = mysqli_query($query);
+        set_message("Category has been updated !");
+        redirect("index.php?categories");
+
+    } else {
+        set_message("Category Update Failed");
+    }
+
+}
+
+
+
+
+
+
+/****************** Users In Admin *********************/
+
+function users_in_admin() {
+
+$query = query("SELECT * FROM users");
+    confirm($query);
+
+
+    while($row = fetch_array($query)){
+
+        $user_id    = $row['user_id'];
+        $username   = $row['username'];
+        $email      = $row['email'];
+
+        $user = <<<DELIMETER
+
+        <tr>
+            <td><strong>{$row['user_id']}</strong></td>
+            <td>{$row['username']}</td>
+            <td>{$email}</td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="../../resources/templates/back/delete_user.php?delete_user&id={$row['user_id']}">Delete</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        DELIMETER;
+
+
+        echo $user;
+
+    }
 
 
 }

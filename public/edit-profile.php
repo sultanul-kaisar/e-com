@@ -10,43 +10,13 @@
  ?>
 
 <?php
-
     $query1 = query("SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}");
     $user = mysqli_fetch_assoc($query1); 
 
     $query2 = query("SELECT * FROM profiles WHERE user_id = {$_SESSION['user_id']}");
     $profile = mysqli_fetch_assoc($query2);
 
-
-    if(isset($_POST['submit']) or isset($_GET['submit'])){
-
-        $firstName = escape_string($_POST['firstName']);
-        $lastName = escape_string($_POST['lastName']);
-        $street = escape_string($_POST['street']);
-        $city = escape_string($_POST['city']);
-        $state = escape_string($_POST['state']);
-        $postal_code = escape_string($_POST['postal_code']);
-        $country = escape_string($_POST['country']);
-        $mobile = escape_string($_POST['mobile']);
-
-
-        $query = query("UPDATE profiles SET firstName = '$firstName', lastName = '$lastName' , street = '$street', city = '$city', state = '$state', postal_code = '$postal_code', country = '$country', mobile = '$mobile' WHERE user_id = '{$_SESSION['user_id']}' ");
-        confirm($query);
-        if(mysqli_num_rows($query) == 0) {
-            
-                set_message("Something is wrong");
-                redirect("edit-profile.php");
-            
-        
-            } else {
-                $data = mysqli_fetch_assoc($query);
-
-
-                redirect("profile.php");
-    
-            }  
-    }
-
+    edit_profile();
   ?>
 
 
@@ -74,7 +44,7 @@
                 <div class="d-flex justify-content-center mb-4">
                     <div class="profile-image-outer-container">
                         <div class="profile-image-inner-container bg-color-primary">
-                            <img src="img/product/product-1.jpg" alt="Avatar" style="width:150px; border-radius: 20%;">
+                            <img src="../../resources/<?php echo $product_image; ?>" alt="" style="width:150px; border-radius: 20%;">
                             <span class="profile-image-button bg-color-dark">
                                 <i class="fas fa-camera text-light"></i>
                             </span>
@@ -110,6 +80,7 @@
                                 } ?>" placeholder="Enter your First Name">
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2 required">Last name</label>
                         <div class="col-lg-9">
@@ -121,12 +92,21 @@
                                 } ?>" placeholder="Enter your Last Name">
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2 required">Username</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" name="username" type="text" value="<?php echo $_SESSION['username'] ?>" readonly>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2 required">Email</label>
                         <div class="col-lg-9">
                             <input class="form-control" name="email" type="email" value="<?php echo $user['email'] ?>" readonly>
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2">Address</label>
                         <div class="col-lg-9">
@@ -138,6 +118,7 @@
                                 } ?>" placeholder="Enter your street address">
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2"></label>
                         <div class="col-lg-3">
@@ -148,6 +129,7 @@
                                   echo $profile['city'];  
                                 } ?>" placeholder="Enter your city">
                         </div>
+
                         <div class="col-lg-3">
                             <input class="form-control" type="text" name="state" value="<?php
                              if(empty($profile['state'])) {
@@ -156,6 +138,7 @@
                                   echo $profile['state'];  
                                 } ?>" placeholder="Enter your state" >
                         </div>
+
                         <div class="col-lg-3">
                             <input class="form-control" type="text" name="postal_code" value="<?php if(empty($profile['postal_code'])) {
                                 echo "";                                
@@ -176,6 +159,7 @@
                                 } ?>" placeholder="Enter your country">
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2">Phone</label>
                         <div class="col-lg-9">
@@ -187,18 +171,21 @@
                                 } ?>" placeholder="Enter your mobile number">
                         </div>
                     </div>
+
                     <div class="form-group row">
-                        <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2 required">Username</label>
+                        <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2 required">Photo</label>
                         <div class="col-lg-9">
-                            <input class="form-control" name="username" type="text" value="<?php echo $_SESSION['username'] ?>" readonly>
+                            <input name="file" type="file">
+                            <label for="product-title"></label>
                         </div>
                     </div>
+                    
                     <div class="form-group row">
                         <div class="form-group col-lg-9">
                             
                         </div>
                         <div class="form-group col-lg-3">
-                            <a href="edit-profile.php"><input type="submit" name="submit" value="Update" class="btn btn-primary btn-modern float-right" data-loading-text="Loading..."></a>
+                            <input type="submit" name="update" class="btn btn-outline-success float-right" value="Update">
                         </div>
                     </div>
                 </form>

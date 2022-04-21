@@ -85,7 +85,7 @@
                         <h4 class="card-title">Product Category</h4>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
-                                <select class="mr-sm-2 default-select" id="inlineFormCustomSelect">
+                                <select class="mr-sm-2 default-select" name="product_category_id" id="inlineFormCustomSelect">
                                     <option selected value="<?php echo $product_category_id; ?>"> <?php echo show_category_title($product_category_id); ?></option>
                                     <?php show_category_name() ?>
                                 </select>
@@ -109,7 +109,7 @@
                         <h4 class="card-title" style="margin-top:10px;">Product Image</h4>
                         <div class="input-group mb-3">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input">
+                                <input type="file" value="<?php echo $product_image; ?>" name="file" class="custom-file-input">
                                 <label class="custom-file-label">Choose file</label>         
                             </div>
                         </div>

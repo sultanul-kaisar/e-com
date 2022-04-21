@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
+    <!-- Datatable -->
+    <link href="./vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
