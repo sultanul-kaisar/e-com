@@ -27,6 +27,30 @@ defined("DB_NAME") ? null : define("DB_NAME", "ecom_db");
 
 $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
+
+
+
+
+
+
+
+
+
+/*********** DB Connection ***************/
+
+$servername = "localhost";
+$username = "root"; // Put the MySQL Username
+$password = ""; // Put the MySQL Password
+$database = "ecom_db"; // Put the Database Name
+
+// Create connection for integration
+$conn_integration = mysqli_connect($servername, $username, $password, $database);
+
+// Check connection for integration
+if (!$conn_integration) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
 require_once("functions.php");
 
 require_once("cart_function.php");
@@ -70,7 +94,7 @@ return [
         'refund_status' => "/validator/api/merchantTransIDvalidationAPI.php",
     ],
     'connect_from_localhost' => constant("IS_LOCALHOST"),
-    'success_url' => 'pg_redirection/success.php',
+    'success_url' => 'success.php',
     'failed_url' => 'pg_redirection/fail.php',
     'cancel_url' => 'pg_redirection/cancel.php',
     'ipn_url' => 'pg_redirection/ipn.php',

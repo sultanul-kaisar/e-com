@@ -587,7 +587,7 @@ function display_orders() {
         $orders = <<<DELIMETER
 
         <tr>
-            <td><strong>{$row['order_id']}</strong></td>
+            <td><strong>{$row['id']}</strong></td>
             <td>{$row['amount']}</td>
             <td>{$row['transaction_id']}</td>
             <td>{$row['currency']}</td>
@@ -599,7 +599,7 @@ function display_orders() {
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="../../resources/templates/back/delete_order.php?id={$row['order_id']}">Delete</a>
+                        <a class="dropdown-item" href="../../resources/templates/back/delete_order.php?id={$row['id']}">Delete</a>
                     </div>
                 </div>
             </td>

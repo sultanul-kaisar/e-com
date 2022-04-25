@@ -9,10 +9,46 @@ ini_set('display_errors', 1);
 
 require_once(__DIR__ . "/lib/SslCommerzNotification.php");
 
-include("db_connection.php");
+
 include("OrderTransaction.php");
 
 use SslCommerz\SslCommerzNotification;
+
+
+
+
+
+
+    foreach ($_SESSION as $name => $value){
+
+            if ($value >0) {
+
+                if(substr($name, 0, 8) == "product_") {
+
+                    // $length = strlen($name - 8);
+
+                    $id = substr($name, 8);
+
+
+                    $query = query("SELECT * FROM products WHERE product_id = " . escape_string($id). "");
+                    confirm($query);
+
+                    while ($row = fetch_array($query)) {
+                        $amount = $row['product_price'] * $value;
+
+                        // echo "<pre>";
+                        // print_r($row);
+                        // exit;
+
+                    $query = query("INSERT INTO order_details (order_id, user_id, product_id, quantity, rate, amount)
+                                VALUES ( (SELECT id FROM (SELECT COALESCE(MAX(id),0)+1 AS id FROM orders) AS temp),'{$_SESSION['user_id']}', '{$row['product_id']}','$value', '{$row['product_price']}','$amount')"); 
+
+                }
+            }
+
+        }
+    }
+
 
 # Organize the submitted/inputted data
 $post_data = array();
@@ -22,16 +58,19 @@ $post_data['store_passwd'] = "skais624df84bd38f5@ssl";
 $post_data['total_amount'] = $_POST['amount'];
 $post_data['currency'] = "BDT";
 $post_data['tran_id'] = "SSLCZ_TEST_" . uniqid();
+$post_data['success_url'] = "https://localhost/Personal/ecom/public/success.php?order_id={$last_insert_id}";
+$post_data['fail_url'] = "http://localhost/new_sslcz_gw/fail.php";
+$post_data['cancel_url'] = "http://localhost/new_sslcz_gw/cancel.php";
 
 # CUSTOMER INFORMATION
 $post_data['cus_name'] = isset($_POST['customer_name']) ? $_POST['customer_name'] : "John Doe";
 $post_data['cus_email'] = isset($_POST['customer_email']) ? $_POST['customer_email'] : "john.doe@email.com";
-$post_data['cus_add1'] =  "Dhaka";
-$post_data['cus_add2'] = "Dhaka";
-$post_data['cus_city'] = "Dhaka";
-$post_data['cus_state'] = "Dhaka";
-$post_data['cus_postcode'] = "1000";
-$post_data['cus_country'] = "Bangladesh";
+$post_data['cus_add1'] = isset($_POST['customer_address']) ? $_POST['customer_address'] : "Dhaka";
+$post_data['cus_add2'] = isset($_POST['customer_address2']) ? $_POST['customer_address2'] : "Dhaka";
+$post_data['cus_city'] = isset($_POST['customer_city']) ? $_POST['customer_city'] : "Dhaka";
+$post_data['cus_state'] = isset($_POST['customer_state']) ? $_POST['customer_state'] : "Dhaka";
+$post_data['cus_postcode'] = isset($_POST['cus_postcode']) ? $_POST['cus_postcode'] : "1000";
+$post_data['cus_country'] = isset($_POST['country']) ? $_POST['country'] : "Bangladesh";
 $post_data['cus_phone'] = isset($_POST['customer_mobile']) ? $_POST['customer_mobile'] : "01711111111";
 $post_data['cus_fax'] = "01711111111";
 

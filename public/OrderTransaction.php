@@ -15,11 +15,16 @@ class OrderTransaction {
         $phone = $post_data['cus_phone'];
         $transaction_amount = $post_data['total_amount'];
         $address = $post_data['cus_add1'];
+        $address2 = $post_data['cus_add2'];
+        $city = $post_data['cus_city'];
+        $state = $post_data['cus_state'];
+        $country = $post_data['cus_country'];
+        $zip = $post_data['cus_postcode'];
         $transaction_id = $post_data['tran_id'];
         $currency = $post_data['currency'];
 
-        $sql = "INSERT INTO orders (name, email, phone, amount, address, status, transaction_id,currency)
-                                    VALUES ('$name', '$email', '$phone','$transaction_amount','$address','Pending', '$transaction_id','$currency')";
+        $sql = "INSERT INTO orders (user_id, name, email, phone, amount, address,address2, city, state, country, zip, status, transaction_id,currency)
+                                    VALUES ('{$_SESSION['user_id']}', '$name', '$email', '$phone','$transaction_amount','$address', '$address2', '$city', '$state', '$country', '$zip', 'Pending', '$transaction_id','$currency')";
 
         return $sql;
     }

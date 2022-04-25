@@ -62,14 +62,14 @@
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Address <span>*</span></p>
-                                    <input type="text" name="" id="address" placeholder="Enter your address" required>
+                                    <input type="text" name="customer_address" id="address" placeholder="Enter your address" required>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Address 2 <span>Optional</span></p>
-                                    <input type="text" name="" id="address2" placeholder="Apartment or suit">
+                                    <input type="text" name="customer_address2" id="address2" placeholder="Apartment or suit">
                                 </div>
                             </div> 
 
@@ -83,7 +83,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>State <span>*</span></p>
-                                    <select class="custom-select d-block w-100" id="state" required>
+                                    <select class="custom-select d-block w-100" name="customer_state" id="state" required>
                                         <option value="">Choose...</option>
                                         <option value="Dhaka">Dhaka</option>
                                         <option value="Rajshahi">Rajshahi</option>
@@ -95,7 +95,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Country <span>*</span></p>
-                                    <select class="custom-select d-block w-100" id="country" required>
+                                    <select class="custom-select d-block w-100" name="customer_country" id="country" required>
                                         <option value="">Choose...</option>
                                         <option value="Bangladesh">Bangladesh</option>
                                     </select>
@@ -105,15 +105,15 @@
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Zip/Post Code <span>*</span></p>
-                                    <input type="text" id="zip" name="" placeholder="Enter your Zip/Post code!" required>
+                                    <input type="text" name="cus_postcode" id="zip" name="" placeholder="Enter your Zip/Post code!" required>
                                 </div>
                             </div> 
 
-                            <div class="custom-control custom-checkbox col-lg-8 col-md-8 col-sm-8" style="margin-left: 20px;">
+                            <!-- <div class="custom-control custom-checkbox col-lg-8 col-md-8 col-sm-8" style="margin-left: 20px;">
                                 <input type="checkbox" class="custom-control-input" id="same-address">
                                 <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
                                     address</label>
-                            </div>
+                            </div> -->
                            <!--  <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="save-info">
                                 <label class="custom-control-label" for="save-info">Save this information for next time</label>

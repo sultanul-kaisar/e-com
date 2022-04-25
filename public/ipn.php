@@ -1,14 +1,8 @@
-<?php
-######
-# THIS FILE IS ONLY AN EXAMPLE. PLEASE MODIFY AS REQUIRED.
-# Contributor: Md. Rakibul Islam <rakibul.islam@sslwireless.com>
-######
-
+<?php require_once("../resources/config.php"); 
 error_reporting(0);
 
-require_once __DIR__ . "/../lib/SslCommerzNotification.php";
-include_once __DIR__ . "/../db_connection.php";
-include_once __DIR__ . "/../OrderTransaction.php";
+require_once __DIR__ . "/lib/SslCommerzNotification.php";
+include_once __DIR__ . "/OrderTransaction.php";
 
 use SslCommerz\SslCommerzNotification;
 

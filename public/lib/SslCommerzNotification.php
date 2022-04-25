@@ -1,7 +1,7 @@
 <?php
 namespace SslCommerz;
 
-require_once("../resources/config.php"); 
+
 
 require_once(__DIR__."/AbstractSslCommerz.php");
 

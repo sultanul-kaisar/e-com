@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2022 at 01:38 AM
+-- Generation Time: Apr 25, 2022 at 11:22 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -72,11 +72,17 @@ INSERT INTO `categories` (`cat_id`, `cat_title`) VALUES
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` double DEFAULT NULL,
   `address` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address2` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `state` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `zip` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `status` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `transaction_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
@@ -86,17 +92,32 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `name`, `email`, `phone`, `amount`, `address`, `status`, `transaction_id`, `currency`) VALUES
-(1, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c15a40734', 'BDT'),
-(2, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c1efa425e', 'BDT'),
-(3, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c26573597', 'BDT'),
-(4, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c2b56ca30', 'BDT'),
-(5, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c304ebad5', 'BDT'),
-(6, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c32071312', 'BDT'),
-(7, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c3593f572', 'BDT'),
-(8, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265c3a70cd09', 'BDT'),
-(9, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 2297, 'Dhaka', 'Processing', 'SSLCZ_TEST_6265d986e8136', 'BDT'),
-(10, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 2598, 'Dhaka', 'Pending', 'SSLCZ_TEST_6265ded6d2b8f', 'BDT');
+INSERT INTO `orders` (`id`, `user_id`, `name`, `email`, `phone`, `amount`, `address`, `address2`, `city`, `state`, `country`, `zip`, `status`, `transaction_id`, `currency`) VALUES
+(1, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c15a40734', 'BDT'),
+(2, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c1efa425e', 'BDT'),
+(3, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c26573597', 'BDT'),
+(4, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c2b56ca30', 'BDT'),
+(5, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c304ebad5', 'BDT'),
+(6, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c32071312', 'BDT'),
+(7, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c3593f572', 'BDT'),
+(8, 0, 'John Doe', 'john.doe@email.com', '01711111111', 0, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265c3a70cd09', 'BDT'),
+(9, 0, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 2297, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_6265d986e8136', 'BDT'),
+(10, 0, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 2598, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_6265ded6d2b8f', 'BDT'),
+(11, 1, 'Sultanul', 'admin@skaisar.com', '01711111111', 3097, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_62667a5cadb31', 'BDT'),
+(12, 3, 'Sultanul', 'admin@skaisar.com', '01711111111', 499, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_62667f07c86b9', 'BDT'),
+(13, 3, 'Sultanul', 'admin@skaisar.com', '01711111111', 499, 'Dhaka', '', '', '', '', '', 'Pending', 'SSLCZ_TEST_62667f3cf1524', 'BDT'),
+(14, 3, 'Sultanul', 'admin@skaisar.com', '01711111111', 499, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_62667fa299ae1', 'BDT'),
+(15, 7, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 1299, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_6266802d756a7', 'BDT'),
+(16, 5, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 350, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_626682a871c41', 'BDT'),
+(17, 3, 'Kaisar', 'admin@skaisar.com', '01711111111', 5198, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_6266891471988', 'BDT'),
+(18, 4, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 799, 'Dhaka', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_62668b6c771d5', 'BDT'),
+(19, 7, 'Kaisar', 'admin@skaisar.com', '01711111111', 5198, 'Uttara sector-5', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_6266e84a81650', 'BDT'),
+(20, 5, 'Kaisar', 'admin@skaisar.com', '01711111111', 1297, 'Uttara sector-5', '', '', '', '', '', 'Processing', 'SSLCZ_TEST_6266ea9952615', 'BDT'),
+(21, 3, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 998, 'Uttara sector-5', 'Road# 6/A', 'Dhaka', 'Dhaka', 'Bangladesh', '1230', 'Processing', 'SSLCZ_TEST_6266ed1767915', 'BDT'),
+(22, 3, 'Kaisar', 'admin@skaisar.com', '01711111111', 350, 'Uttara sector-5', 'Road# 6/A', 'Dhaka', 'Dhaka', 'Bangladesh', '1230', 'Processing', 'SSLCZ_TEST_6266ee04362e4', 'BDT'),
+(23, 3, 'Kaisar', 'admin@skaisar.com', '01711111111', 499, 'Uttara sector-5', 'Road# 6/A', 'Rajshahi', 'Rajshahi', 'Bangladesh', '6000', 'Pending', 'SSLCZ_TEST_6266eeb9d3308', 'BDT'),
+(24, 7, 'Kaisar', 'admin@skaisar.com', '01711111111', 299, 'Uttara sector-5', '', 'Dhaka', 'Dhaka', 'Bangladesh', '1230', 'Processing', 'SSLCZ_TEST_6266ef9f06a56', 'BDT'),
+(25, 7, 'Sultanul Kaisar', 'admin@skaisar.com', '01711111111', 499, 'Uttara sector-5', '', 'Dhaka', 'Dhaka', 'Bangladesh', '1230', 'Processing', 'SSLCZ_TEST_62670fa3dd700', 'BDT');
 
 -- --------------------------------------------------------
 
@@ -112,6 +133,31 @@ CREATE TABLE `order_details` (
   `rate` double NOT NULL,
   `amount` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`order_id`, `user_id`, `product_id`, `quantity`, `rate`, `amount`) VALUES
+(10, 1, 3, 2, 1299, 2598),
+(10, 1, 12, 1, 499, 499),
+(11, 3, 12, 1, 499, 499),
+(12, 3, 12, 1, 499, 499),
+(13, 3, 12, 1, 499, 499),
+(14, 7, 3, 1, 1299, 1299),
+(15, 5, 13, 1, 350, 350),
+(0, 3, 2, 2, 2599, 5198),
+(18, 4, 1, 1, 799, 799),
+(19, 7, 2, 2, 2599, 5198),
+(19, 7, 2, 2, 2599, 5198),
+(20, 5, 12, 1, 499, 499),
+(20, 5, 10, 1, 299, 299),
+(20, 5, 14, 1, 499, 499),
+(21, 3, 12, 2, 499, 998),
+(22, 3, 13, 1, 350, 350),
+(23, 3, 12, 1, 499, 499),
+(24, 7, 10, 1, 299, 299),
+(25, 7, 12, 1, 499, 499);
 
 -- --------------------------------------------------------
 
@@ -246,7 +292,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `products`

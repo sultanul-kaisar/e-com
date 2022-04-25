@@ -1,9 +1,4 @@
-<!-- 
-    ######
-    # THIS FILE IS ONLY AN EXAMPLE. PLEASE MODIFY AS REQUIRED.
-    # Contributor: Md. Rakibul Islam <rakibul.islam@sslwireless.com>
-    ######
- -->
+<?php require_once("../resources/config.php"); ?>
 
 <!DOCTYPE html>
 
@@ -25,8 +20,7 @@
                 }
 
                 // Connect to database after confirming the request
-                include(__DIR__ . "/../db_connection.php");
-                include(__DIR__ . "/../OrderTransaction.php");
+                include(__DIR__ . "/OrderTransaction.php");
 
                 $tran_id = trim($_POST['tran_id']);
                 $ot = new OrderTransaction();
