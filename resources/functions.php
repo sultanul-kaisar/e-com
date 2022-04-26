@@ -85,7 +85,7 @@ function fetch_array($result){
 
 function get_products(){
 
-    $query = query("SELECT * FROM products");
+    $query = query("SELECT * FROM products ORDER BY product_id DESC LIMIT 0, 8");
     confirm($query);
 
     while($row = fetch_array($query)){
@@ -93,12 +93,12 @@ function get_products(){
 
         <div class="col-lg-3 col-md-4 col-sm-6 mix women">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="../resources/uploads/{$row['product_image']}">
+                <div class="product__item__pic set-bg" data-setbg="resources/uploads/{$row['product_image']}">
                     <div class="label new">New</div>
                     <ul class="product__hover">
-                        <li><a href="../resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                        <li><a href="resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="../resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -156,12 +156,12 @@ function get_products_in_cat_page(){
 
         <div class="col-lg-3 col-md-4 col-sm-6 mix women">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="../resources/uploads/{$row['product_image']}">
+                <div class="product__item__pic set-bg" data-setbg="resources/uploads/{$row['product_image']}">
                     <div class="label new">New</div>
                     <ul class="product__hover">
-                        <li><a href="../resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                        <li><a href="resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="../resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -202,12 +202,12 @@ function get_products_in_shop_page(){
 
         <div class="col-lg-3 col-md-4 col-sm-6 mix women">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="../resources/uploads/{$row['product_image']}">
+                <div class="product__item__pic set-bg" data-setbg="resources/uploads/{$row['product_image']}">
                     <div class="label new">New</div>
                     <ul class="product__hover">
-                        <li><a href="../resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                        <li><a href="resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                        <li><a target="_blank" href="../resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
+                        <li><a target="_blank" href="resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
@@ -241,135 +241,42 @@ function item_view() {
 
     while($row=fetch_array($query)) {
 
+        $category = show_category_title($row['product_category_id']);
+
         $product = <<<DELIMETER
 
             <div class="col-lg-6">
                 <div class="product__details__pic">
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-hash="product-1" class="product__big__img" src="../resources/uploads/{$row['product_image']}" alt="">
+                            <img data-hash="product-1" class="product__big__img" src="resources/uploads/{$row['product_image']}" alt="">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3>{$row['product_title']} <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span>( 138 reviews )</span>
-                    </div>
+                    <h3>{$row['product_title']} <span>Category: {$category} Collection</span></h3>
+                    
                     <div class="product__details__price">&#2547; {$row['product_price']} </div>
                     <p>{$row['short_desc']}</p>
                     <div class="product__details__button">
-                        <a href="../resources/cart_function.php?add={$row['product_id']}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                        <a href="resources/cart_function.php?add={$row['product_id']}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                     </div>
-                    <div class="product__details__widget">
-                        <ul>
-                            <li>
-                                <span>Availability:</span>
-                                <div class="stock__checkbox">
-                                    <label for="stockin">
-                                        In Stock
-                                        <input type="checkbox" id="stockin">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <span>Available color:</span>
-                                <div class="color__checkbox">
-                                    <label for="red">
-                                        <input type="radio" name="color__radio" id="red" checked>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="black">
-                                        <input type="radio" name="color__radio" id="black">
-                                        <span class="checkmark black-bg"></span>
-                                    </label>
-                                    <label for="grey">
-                                        <input type="radio" name="color__radio" id="grey">
-                                        <span class="checkmark grey-bg"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <span>Available size:</span>
-                                <div class="size__btn">
-                                    <label for="xs-btn" class="active">
-                                        <input type="radio" id="xs-btn">
-                                        xs
-                                    </label>
-                                    <label for="s-btn">
-                                        <input type="radio" id="s-btn">
-                                        s
-                                    </label>
-                                    <label for="m-btn">
-                                        <input type="radio" id="m-btn">
-                                        m
-                                    </label>
-                                    <label for="l-btn">
-                                        <input type="radio" id="l-btn">
-                                        l
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <span>Promotions:</span>
-                                <p>Free shipping</p>
-                            </li>
-                        </ul>
-                    </div>
+                    
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="product__details__tab">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"><h2>Description</h2></a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <h6>Description</h6>
-                            <p>{$row['product_description']}</p>
-                        </div>
-                        <div class="tab-pane" id="tabs-2" role="tabpanel">
-                            <h6>Specification</h6>
-                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                            consequat massa quis enim.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                            quis, sem.</p>
-                        </div>
-                        <div class="tab-pane" id="tabs-3" role="tabpanel">
-                            <h6>Reviews ( 2 )</h6>
-                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                            consequat massa quis enim.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                            quis, sem.</p>
-                        </div>
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">                            
+                            <h4>{$row['product_description']}</h4>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -599,7 +506,7 @@ function display_orders() {
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="../../resources/templates/back/delete_order.php?id={$row['id']}">Delete</a>
+                        <a class="dropdown-item" href="../resources/templates/back/delete_order.php?id={$row['id']}">Delete</a>
                     </div>
                 </div>
             </td>
@@ -647,7 +554,7 @@ function products_in_admin() {
         <tr>
             <td><strong>{$row['product_id']}</strong></td>
             <td>{$row['product_title']}</td>
-            <td><a href="#"><img class="img-fluid" src="../../resources/{$product_image}" width="80px"</a></td>
+            <td><a href="#"><img class="img-fluid" src="../resources/{$product_image}" width="80px"</a></td>
             <td>{$category}</td>
             <td>{$row['product_price']}</td>
             <td>{$row['product_quantity']}</td>
@@ -658,7 +565,7 @@ function products_in_admin() {
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="edit.php?id={$row['product_id']}">Edit</a>
-                        <a class="dropdown-item" href="../../resources/templates/back/delete_product.php?delete_product&id={$row['product_id']}">Delete</a>
+                        <a class="dropdown-item" href="../resources/templates/back/delete_product.php?delete_product&id={$row['product_id']}">Delete</a>
                     </div>
                 </div>
             </td>
@@ -833,7 +740,7 @@ function categories_in_admin() {
                         
                         <a class="dropdown-item" href="edit_category.php?id={$row['cat_id']}">Edit</a>
 
-                        <a class="dropdown-item" href="../../resources/templates/back/delete_category.php?delete_category&id={$row['cat_id']}">Delete</a>
+                        <a class="dropdown-item" href="../resources/templates/back/delete_category.php?delete_category&id={$row['cat_id']}">Delete</a>
                     </div>
                 </div>
             </td>

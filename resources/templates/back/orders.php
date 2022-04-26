@@ -1,14 +1,10 @@
 
-<?php require_once("../../resources/config.php") ?>
-
-
-
        
 		
 <!--**********************************
     Content body start
 
-    <!-- row -->
+    <!- row -->
     <div class="container-fluid">
 
         <div class="page-titles">

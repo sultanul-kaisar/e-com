@@ -7,12 +7,12 @@ $query = query("DELETE FROM users WHERE user_id = " . escape_string($_GET['id'] 
 confirm($query);
 
 set_message("User deleted!");
-redirect("../../../public/admin/index.php?users");
+redirect("../../../admin/index.php?users");
 
 }  else {
 
 set_message("User not deleted!");
-redirect("../../../public/admin/index.php?users");
+redirect("../../../admin/index.php?users");
 
 }
 

@@ -1,14 +1,14 @@
 <div class="col-xl-6 col-lg-7">
     <nav class="header__menu">
         <ul>
-            <li class="active"><a href="index.php">Home</a></li>
-            <li class="active">
+            <li ><a href="index.php">Home</a></li>
+            <li >
                 <?php
                     get_categories();
                     ?>                        
             </li>
             <!-- <li><a href="./blog.html">Blog</a></li> -->
-            <li><a href="contact.php">Contact</a></li>
+            <li ><a href="contact.php">Contact</a></li>
         </ul>
     </nav>
 </div>

@@ -1,5 +1,3 @@
-<?php require_once("../../resources/config.php") ?>
-
 
 
 <div class="page-titles">
@@ -15,7 +13,7 @@
             <div class="card-header">
                 <h3 class="card-title">All Users</h3>
                 <h4 class="bg-success"><?php display_message(); ?></h4>                
-                <button type="button" class="btn btn-outline-success float-right ml-5"><a href="index.php?add_product">+ Add Product</a></button>
+                
             </div>
             <div class="card-body">
                 <div class="table-responsive">

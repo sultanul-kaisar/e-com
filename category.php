@@ -1,4 +1,4 @@
-<?php require_once("../resources/config.php") ?>
+<?php require_once("resources/config.php") ?>
 
 <?php include(TEMPLATE_FRONT.DS. "header.php") ?>
 
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="row property__gallery">
-                <?php get_products_in_shop_page(); ?>
+                <?php get_products_in_cat_page(); ?>
             </div>
         </div>
     </section>

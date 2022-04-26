@@ -1,5 +1,3 @@
-<?php require_once("../../resources/config.php") ?>
-
 
 
 <div class="page-titles">

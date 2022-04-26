@@ -7,12 +7,12 @@ $query = query("DELETE FROM categories WHERE cat_id = " . escape_string($_GET['i
 confirm($query);
 
 set_message("Category deleted!");
-redirect("../../../public/admin/index.php?categories");
+redirect("../../../admin/index.php?categories");
 
 }  else {
 
 set_message("Category not deleted!");
-redirect("../../../public/admin/index.php?categories");
+redirect("../../../admin/index.php?categories");
 
 }
 

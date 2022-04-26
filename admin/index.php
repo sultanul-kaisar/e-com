@@ -1,4 +1,4 @@
-<?php require_once("../../resources/config.php") ?>
+<?php require_once("../resources/config.php") ?>
 
 <?php include(TEMPLATE_BACK . DS . "/header.php") ?>
 
@@ -7,7 +7,7 @@
 <?php 
 
 	if (!isset($_SESSION['admin'])) {
-		redirect("../../public");
+		redirect("../../ecom/");
 	}
 
 ?>

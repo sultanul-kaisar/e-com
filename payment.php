@@ -1,4 +1,4 @@
-<?php require_once("../resources/config.php"); ?>
+<?php require_once("resources/config.php"); ?>
 
 
 <?php
@@ -58,7 +58,7 @@ $post_data['store_passwd'] = "skais624df84bd38f5@ssl";
 $post_data['total_amount'] = $_POST['amount'];
 $post_data['currency'] = "BDT";
 $post_data['tran_id'] = "SSLCZ_TEST_" . uniqid();
-$post_data['success_url'] = "https://localhost/Personal/ecom/public/success.php?order_id={$last_insert_id}";
+$post_data['success_url'] = "https://localhost/Personal/ecom/success.php?order_id={$last_insert_id}";
 $post_data['fail_url'] = "http://localhost/new_sslcz_gw/fail.php";
 $post_data['cancel_url'] = "http://localhost/new_sslcz_gw/cancel.php";
 

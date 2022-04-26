@@ -1,4 +1,4 @@
-<?php require_once("../../resources/config.php") ?>
+<?php require_once("../resources/config.php") ?>
 <?php include(TEMPLATE_BACK . DS . "/header.php") ?>
 
 <?php include(TEMPLATE_BACK . DS . "/sidebar.php") ?>
@@ -113,7 +113,7 @@
                                 <label class="custom-file-label">Choose file</label>         
                             </div>
                         </div>
-                        <img width="120" src="../../resources/<?php echo $product_image; ?> ">
+                        <img width="120" src="../resources/<?php echo $product_image; ?> ">
                     </div>
                 </div>
             </div>

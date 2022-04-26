@@ -1,4 +1,4 @@
-<?php require_once("../resources/config.php"); 
+<?php require_once("resources/config.php"); 
 error_reporting(0);
 
 require_once __DIR__ . "/lib/SslCommerzNotification.php";

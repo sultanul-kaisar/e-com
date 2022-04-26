@@ -1,4 +1,3 @@
-<?php require_once("../../resources/config.php") ?>
 
 <?php add_product(); ?>
 
