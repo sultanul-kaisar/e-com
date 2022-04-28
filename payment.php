@@ -14,8 +14,8 @@ include("OrderTransaction.php");
 
 use SslCommerz\SslCommerzNotification;
 
-
-
+$query3 = query("SELECT id FROM (SELECT COALESCE(MAX(id),0)+1 AS id FROM orders) AS temp");
+$last_insert_id = mysqli_fetch_assoc($query3)['id'];
 
 
 
@@ -41,7 +41,7 @@ use SslCommerz\SslCommerzNotification;
                         // exit;
 
                     $query = query("INSERT INTO order_details (order_id, user_id, product_id, quantity, rate, amount)
-                                VALUES ( (SELECT id FROM (SELECT COALESCE(MAX(id),0)+1 AS id FROM orders) AS temp),'{$_SESSION['user_id']}', '{$row['product_id']}','$value', '{$row['product_price']}','$amount')"); 
+                                VALUES ( '{$last_insert_id}','{$_SESSION['user_id']}', '{$row['product_id']}','$value', '{$row['product_price']}','$amount')"); 
 
                 }
             }
@@ -49,18 +49,12 @@ use SslCommerz\SslCommerzNotification;
         }
     }
 
-
 # Organize the submitted/inputted data
 $post_data = array();
-$post_data['store_id'] = "skais624df84bd38f5";
-$post_data['store_passwd'] = "skais624df84bd38f5@ssl";
 
 $post_data['total_amount'] = $_POST['amount'];
 $post_data['currency'] = "BDT";
 $post_data['tran_id'] = "SSLCZ_TEST_" . uniqid();
-$post_data['success_url'] = "https://localhost/Personal/ecom/success.php?order_id={$last_insert_id}";
-$post_data['fail_url'] = "http://localhost/new_sslcz_gw/fail.php";
-$post_data['cancel_url'] = "http://localhost/new_sslcz_gw/cancel.php";
 
 # CUSTOMER INFORMATION
 $post_data['cus_name'] = isset($_POST['customer_name']) ? $_POST['customer_name'] : "John Doe";
@@ -125,7 +119,7 @@ $post_data['convenience_fee'] = "3";
 # RECURRING DATA
 $schedule = array(
     "refer" => "5B90BA91AA3F2", # Subscriber id which generated in Merchant Admin panel
-    "acct_no" => "01516159145",
+    "acct_no" => "01730671731",
     "type" => "daily", # Recurring Schedule - monthly,weekly,daily
     //"dayofmonth"  =>  "24",   # 1st day of every month
     //"month"       =>  "8",    # 1st day of January for Yearly Recurring

@@ -60,7 +60,7 @@ require_once("cart_function.php");
 /***************** SSL API Configaration **********************/
 
 if (!defined('PROJECT_PATH')) {
-    define('PROJECT_PATH', 'https://localhost/Personal/ecom/public'); // Replace this value with your project path
+    define('PROJECT_PATH', 'https://localhost/Personal/ecom'); // Replace this value with your project path
 }
 
 if (!defined('API_DOMAIN_URL')) {
@@ -95,9 +95,9 @@ return [
     ],
     'connect_from_localhost' => constant("IS_LOCALHOST"),
     'success_url' => 'success.php',
-    'failed_url' => 'pg_redirection/fail.php',
-    'cancel_url' => 'pg_redirection/cancel.php',
-    'ipn_url' => 'pg_redirection/ipn.php',
+    'failed_url' => 'fail.php',
+    'cancel_url' => 'cancel.php',
+    'ipn_url' => 'ipn.php',
 ];
 
 

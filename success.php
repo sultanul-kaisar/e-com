@@ -25,6 +25,7 @@
     $sql = $ot->getRecordQuery($tran_id);
     $result = $conn_integration->query($sql);
     $row = $result->fetch_array(MYSQLI_ASSOC);
+    
 
     if ($row['status'] == 'Pending' || $row['status'] == 'Processing') {
         $validated = $sslc->orderValidate($tran_id, $amount, $currency, $_POST);

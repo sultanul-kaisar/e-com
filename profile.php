@@ -7,9 +7,6 @@
         redirect("login.php");
     }
 
- ?>
-
-<?php
     $query1 = query("SELECT * FROM users WHERE user_id = {$_SESSION['user_id']}");
     $user = mysqli_fetch_assoc($query1); 
 
@@ -42,22 +39,22 @@
                 <div class="d-flex justify-content-center mb-4">
                     <div class="profile-image-outer-container">
                         <div class="profile-image-inner-container bg-color-primary">
-                            <img src="../resources/<?php echo $product_image; ?> " alt="" style="width:150px; border-radius: 20%;">
+                            <img src="resources/<?php echo $photo; ?> " alt="" style="width:150px; border-radius: 20%;">
                             <span class="profile-image-button bg-color-dark">
                                 <i class="fas fa-camera text-light"></i>
                             </span>
                         </div>
                     </div>
                 </div>
-<!-- 
+
                 <aside class="sidebar mt-2" id="sidebar">
                     <ul class="nav nav-list flex-column mb-5">
-                        <li class="nav-item"><a class="nav-link " href="#">My Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">User Preferences</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Billing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Invoices</a></li>
+                        <li class="nav-item"><a class="nav-link " href="#">My Orders</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="#">User Preferences</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Billing</a></li> -->
+                        <li class="nav-item"><a class="nav-link" href="change-password.php">Change Password</a></li>
                     </ul>
-                </aside> -->
+                </aside>
 
             </div>
             <div class="col-lg-9">
@@ -65,6 +62,7 @@
                 <div class="overflow-hidden mb-1">
                     <h2 class="font-weight-normal text-7 mb-0"><strong class="font-weight-extra-bold">My</strong> Profile</h2>
                 </div>
+                <h4 class="bg-success"><?php display_message(); ?></h4> 
 
                 <form role="form" class="needs-validation">
                     <div class="form-group row" style="margin-top:20px;">

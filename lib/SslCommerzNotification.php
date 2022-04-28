@@ -26,7 +26,7 @@ class SslCommerzNotification extends AbstractSslCommerz
      */
     public function __construct()
     {
-        $this->config = include(__DIR__.'/../../resources/config.php');
+        $this->config = include(__DIR__.'/../resources/config.php');
 
         $this->setStoreId($this->config['apiCredentials']['store_id']);
         $this->setStorePassword($this->config['apiCredentials']['store_password']);

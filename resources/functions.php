@@ -392,6 +392,28 @@ function edit_profile() {
     }
 }
 
+
+function update_user_password(){
+
+    if(isset($_POST['update'])){
+
+        
+        $password1      =escape_string(md5($_POST['password1']));
+        $password2      =escape_string(md5($_POST['password2']));
+       
+
+        $query = query("UPDATE users SET password = '$password1' WHERE user_id= {$_SESSION['user_id']} LIMIT 1");
+        $result = mysqli_query($query);
+
+        set_message("Password has been updated !");
+        redirect("profile.php");        
+
+    } else {
+        set_message("Password Update Failed");
+    }
+
+}
+
     
 
 

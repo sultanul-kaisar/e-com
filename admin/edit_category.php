@@ -14,6 +14,16 @@
          while($row = fetch_array($query)) {
 
             $cat_title = escape_string($row['cat_title']);
+
+         	if (empty ($_POST['cur_password'])){
+	        echo "Fill out all fields.";
+	        }
+	         if ($cur_password != $password) {
+	        echo "There was a problem. Wrong Password.";
+	        } 
+	         if ($passord1 != $password2) {
+	        echo "Passords don't match.";
+	        } 
          }
 
     }
