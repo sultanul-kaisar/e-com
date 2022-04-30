@@ -14,7 +14,7 @@ defined("TEMPLATE_BACK") ? null : define("TEMPLATE_BACK", __DIR__ .DS. "template
 
 
 
-defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ .DS. "uploads");
+defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ .DS. "uploads/products");
 
 
 defined("DB_HOST") ? null : define("DB_HOST", "localhost");

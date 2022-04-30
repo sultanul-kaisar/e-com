@@ -1,9 +1,9 @@
 <?php require_once('config.php'); ?>
 <?php
 
-$upload_directory = "uploads";
+$upload_directory = "uploads/products";
 
-$upload_path = "uploads";
+$upload_path = "uploads/products";
 
 
 
@@ -93,10 +93,10 @@ function get_products(){
 
         <div class="col-lg-3 col-md-4 col-sm-6 mix women">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="resources/uploads/{$row['product_image']}">
+                <div class="product__item__pic set-bg" data-setbg="resources/uploads/products/{$row['product_image']}">
                     <div class="label new">New</div>
                     <ul class="product__hover">
-                        <li><a href="resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                        <li><a href="resources/uploads/products/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                         <li><a target="_blank" href="resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
@@ -156,10 +156,10 @@ function get_products_in_cat_page(){
 
         <div class="col-lg-3 col-md-4 col-sm-6 mix women">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="resources/uploads/{$row['product_image']}">
+                <div class="product__item__pic set-bg" data-setbg="resources/uploads/products/{$row['product_image']}">
                     <div class="label new">New</div>
                     <ul class="product__hover">
-                        <li><a href="resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                        <li><a href="resources/uploads/products/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                         <li><a target="_blank" href="resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
@@ -202,10 +202,10 @@ function get_products_in_shop_page(){
 
         <div class="col-lg-3 col-md-4 col-sm-6 mix women">
             <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg="resources/uploads/{$row['product_image']}">
+                <div class="product__item__pic set-bg" data-setbg="resources/uploads/products/{$row['product_image']}">
                     <div class="label new">New</div>
                     <ul class="product__hover">
-                        <li><a href="resources/uploads/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                        <li><a href="resources/uploads/products/{$row['product_image']}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                         <li><a target="_blank" href="resources/cart_function.php?add={$row['product_id']}"><span class="icon_bag_alt"></span></a></li>
                     </ul>
@@ -249,7 +249,7 @@ function item_view() {
                 <div class="product__details__pic">
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-hash="product-1" class="product__big__img" src="resources/uploads/{$row['product_image']}" alt="">
+                            <img data-hash="product-1" class="product__big__img" src="resources/uploads/products/{$row['product_image']}" alt="">
                         </div>
                     </div>
                 </div>
