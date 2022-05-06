@@ -15,6 +15,7 @@
 
             $product_title          = escape_string($row['product_title']);
             $product_category_id    = escape_string($row['product_category_id']);
+            $brand                  = escape_string($row['brand']);
             $product_price          = escape_string($row['product_price']);
             $product_description    = escape_string($row['product_description']);
             $short_desc             = escape_string($row['short_desc']);
@@ -94,6 +95,11 @@
 
 
                         
+                        <h4 class="card-title">Product Brand</h4>
+                        <div class="form-group">
+                            <input style="border-color: yellowgreen;" type="text" name="brand" value=" <?php echo $brand; ?>" class="form-control input-default " placeholder="Enter the product brand">
+                        </div>
+
                         <h4 class="card-title">Product Price</h4>
                         <div class="form-group">
                             <input style="border-color: yellowgreen;" type="text" name="product_price" value=" <?php echo $product_price; ?>" class="form-control input-default " placeholder="Enter the product price">

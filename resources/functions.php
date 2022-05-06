@@ -256,7 +256,7 @@ function item_view() {
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3>{$row['product_title']} <span>Category: {$category} Collection</span></h3>
+                    <h3>{$row['product_title']} <span>Brand: {$row['brand']}</span></h3>
                     
                     <div class="product__details__price">&#2547; {$row['product_price']} </div>
                     <p>{$row['short_desc']}</p>
@@ -620,6 +620,7 @@ function add_product(){
 
         $product_title         = escape_string($_POST['product_title']);
         $product_category_id   = escape_string($_POST['product_category_id']);
+        $brand                 = escape_string($_POST['brand']);
         $product_price         = escape_string($_POST['product_price']);
         $product_quantity      = escape_string($_POST['product_quantity']);
         $product_description   = escape_string($_POST['product_description']);
@@ -632,7 +633,7 @@ function add_product(){
         move_uploaded_file($image_temp_location ,$final_destination);
 
        
-        $query=query("INSERT INTO products(product_title,product_category_id,product_price,product_description,short_desc,product_quantity,product_image)VALUES('{$product_title}','{$product_category_id}','{$product_price}','{$product_description}','{$short_desc}','{$product_quantity}','{$product_image}')");
+        $query=query("INSERT INTO products(product_title,product_category_id,brand,product_price,product_description,short_desc,product_quantity,product_image)VALUES('{$product_title}','{$product_category_id}','{$brand}','{$product_price}','{$product_description}','{$short_desc}','{$product_quantity}','{$product_image}')");
         $last_id=last_id();
         confirm($query);
         set_message("New Product with id : {$last_id}  was Added");
@@ -666,7 +667,28 @@ function show_category_name(){
 
     }
 
+}
 
+
+function show_sub_category_name(){
+
+
+    $query = query("SELECT * FROM sub_categories");
+    confirm($query);
+
+    while($row = fetch_array($query)) {
+
+
+    $sub_categories_options = <<<DELIMETER
+
+     <option value="{$row['sub_cat_id']}">{$row['sub_cat_title']}</option>
+
+
+    DELIMETER;
+
+    echo $sub_categories_options;
+
+    }
 
 }
 
@@ -697,6 +719,7 @@ function update_product(){
 
         $product_title         = escape_string($_POST['product_title']);
         $product_category_id   = escape_string($_POST['product_category_id']);
+        $card_brand            = escape_string($_POST['brand']);
         $product_price         = escape_string($_POST['product_price']);
         $product_quantity      = escape_string($_POST['product_quantity']);
         $product_description   = escape_string($_POST['product_description']);
@@ -722,7 +745,7 @@ function update_product(){
           //   print_r(empty($query));
           //   exit;  
         
-        $query = query("UPDATE products SET product_title = '" . $_POST['product_title'] . "', product_category_id = '" . $_POST['product_category_id'] . "', product_price = '" . $_POST['product_price'] . "', product_quantity = '" . $_POST['product_quantity'] . "', product_description = '" . $_POST['product_description'] . "', short_desc = '" . $_POST['short_desc'] . "', product_image = '" . $_POST['product_image'] . "' WHERE product_id = ".escape_string($_GET['id'])." ");
+        $query = query("UPDATE products SET product_title = '" . $_POST['product_title'] . "', product_category_id = '" . $_POST['product_category_id'] . "', brand = '" . $_POST['brand'] . "', product_price = '" . $_POST['product_price'] . "', product_quantity = '" . $_POST['product_quantity'] . "', product_description = '" . $_POST['product_description'] . "', short_desc = '" . $_POST['short_desc'] . "', product_image = '" . $_POST['product_image'] . "' WHERE product_id = ".escape_string($_GET['id'])." ");
         
         $result = mysqli_query($query);
         set_message("Products has been updated !");
@@ -827,6 +850,79 @@ function update_category(){
     } else {
         set_message("Category Update Failed");
     }
+
+}
+
+
+/**************** SUB CATEGORIES IN ADMIN *******************/
+
+
+
+function sub_categories_in_admin() {
+
+    $query = query("SELECT * FROM sub_categories");
+    confirm($query);
+
+
+    while($row= fetch_array($query)){
+
+        $category = show_category_title($row['parent_cat_id']);
+
+        $category = <<<DELIMETER
+
+        <tr>
+            <td><strong>{$row['sub_cat_id']}</strong></td>
+            <td>{$row['sub_cat_title']}</td>            
+            <td>{$category}</td>            
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg>
+                    </button>
+                    <div class="dropdown-menu">
+                        
+                        <a class="dropdown-item" href="edit_category.php?id={$row['sub_cat_id']}">Edit</a>
+
+                        <a class="dropdown-item" href="../resources/templates/back/delete_category.php?delete_category&id={$row['sub_cat_id']}">Delete</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        DELIMETER;
+
+
+        echo $category;
+
+    }
+
+
+}
+
+
+
+
+/**************** ADD SUB CATEGORY IN ADMIN *******************/
+
+
+function add_sub_category() {
+
+
+    if(isset($_POST['submit'])) {
+
+
+        $parent_cat_id      = escape_string($_POST['parent_cat_id']);
+        $sub_cat_title      = escape_string($_POST['sub_cat_title']);
+
+
+        $query = query("INSERT INTO sub_categories(parent_cat_id, sub_cat_title) VALUES('{$parent_cat_id}', '{$sub_cat_title}') ");
+        
+        confirm($query);
+        set_message("New Sub Category is Added Successfully");
+        redirect("index.php?categories");
+
+
+        }
+
 
 }
 

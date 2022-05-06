@@ -75,6 +75,11 @@
 					include(TEMPLATE_BACK . "\edit_category.php");
 				}
 
+				if (isset($_GET['add_sub_category'])) {
+					
+					include(TEMPLATE_BACK . "\add_sub_category.php");
+				}
+
 				if (isset($_GET['users'])) {
 					
 					include(TEMPLATE_BACK . "\users.php");

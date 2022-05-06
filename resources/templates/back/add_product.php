@@ -27,14 +27,14 @@
                     <div class="card-body">
                         <h4 class="card-title">Product Descreiption</h4>
                         <div class="form-group">
-                            <textarea style="border-color: yellowgreen;" name="product_description" cols="30" rows="8" class="form-control input-default"></textarea>
+                            <textarea style="border-color: yellowgreen;" name="product_description" cols="30" rows="10" class="form-control input-default"></textarea>
                         </div>
                     </div>
 
                     <div class="card-body">
                         <h4 class="card-title">Product Short Descreiption</h4>
                         <div class="form-group">
-                            <textarea style="border-color: yellowgreen;" name="short_desc" cols="30" rows="4" class="form-control input-default"></textarea>
+                            <textarea style="border-color: yellowgreen;" name="short_desc" cols="30" rows="5" class="form-control input-default"></textarea>
                         </div>
                     </div>
                     
@@ -49,11 +49,25 @@
                         <h4 class="card-title" style="margin-top:20px">Product Category</h4>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
-                                <select name="product_category_id" class="mr-sm-2 default-select" id="inlineFormCustomSelect">
+                                <select name="product_category_id" onchange="ajaxfunction(this.value)" class="mr-sm-2 default-select" id="category">
                                     <option selected>Select Category</option>
                                     <?php show_category_name() ?>
                                 </select>
                             </div>
+                        </div>
+
+                        <h4 class="card-title" style="margin-top:20px">Product Sub Category</h4>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto my-1">
+                                <select onchange="ajaxfunction(this.value)" name="product_sub_cat_id" id="sub" class="mr-sm-2 default-select">
+                                    <option>Select Sub Category</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h4 class="card-title">Product Brand</h4>
+                        <div class="form-group">
+                            <input style="border-color: yellowgreen;" type="text" name="brand" class="form-control input-default " placeholder="Enter the product brand">
                         </div>
 
 
@@ -79,3 +93,17 @@
         </div>
     </form>         
 </div> 
+
+
+
+<script type="text/javascript">
+    function ajaxfunction(parent_cat_id)
+    {
+        $.ajax({
+            url: 'ajax.php?parent_cat_id=' + parent_cat_id;
+            success: function(data) {
+                $("#sub").html(data);
+            }
+        });
+    }
+</script>
