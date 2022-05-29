@@ -56,7 +56,7 @@
 				
 				if (isset($_GET['edit_product'])) {
 					
-					include(TEMPLATE_BACK . "\edit_product.php");
+					include(TEMPLATE_BACK . "/edit_product.php");
 				}
 
 
@@ -72,12 +72,17 @@
 
 				if (isset($_GET['edit_category'])) {
 					
-					include(TEMPLATE_BACK . "\edit_category.php");
+					include(TEMPLATE_BACK . "/edit_category.php");
 				}
 
 				if (isset($_GET['add_sub_category'])) {
 					
 					include(TEMPLATE_BACK . "\add_sub_category.php");
+				}
+
+				if (isset($_GET['edit_sub_category'])) {
+					
+					include(TEMPLATE_BACK . "/edit_sub_category.php");
 				}
 
 				if (isset($_GET['users'])) {

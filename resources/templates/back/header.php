@@ -11,6 +11,8 @@
     <link href="./vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
 	<link href="./vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
+    <link href="./vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+
 
      <!-- Summernote -->
     <link href="./vendor/summernote/summernote.css" rel="stylesheet">

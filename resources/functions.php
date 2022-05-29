@@ -127,20 +127,56 @@ function get_products(){
 
 function get_categories(){
 
-    $query = query("SELECT * FROM categories");
+    $query = query("SELECT * FROM categories, sub_categories WHERE categories.cat_id = sub_categories.parent_cat_id");
+
     confirm($query);
 
+    
+    $menus = [];
 
-    while($row = fetch_array($query)){
-
-        $categories_links =  <<<DELIMETER
-
-        <li><a href='category.php?id={$row['cat_id']}'>{$row['cat_title']}</a></li>
-        DELIMETER;
-        
-        echo $categories_links;
-
+    while($row = mysqli_fetch_assoc($query)){
+        if(!isset($menus[$row['cat_id']])){
+            $menus[$row['cat_id']] = [
+                "cat_id" => $row['cat_id'],
+                "cat_title" => $row['cat_title'],
+                "sub_menu" => [
+                    [
+                        "sub_cat_id" => $row['sub_cat_id'],
+                        "sub_cat_title" => $row['sub_cat_title'],
+                    ]
+                ]
+            ];
+        } else {
+            $menus[$row['cat_id']]['sub_menu'][] = [
+                "sub_cat_id" => $row['sub_cat_id'],
+                "sub_cat_title" => $row['sub_cat_title'],
+            ];
+        }
     }
+
+    // echo '<pre>';
+    // print_r($menus);
+    // exit;
+
+    $categories_links = '';
+
+    foreach($menus as $menu){
+
+        $categories_links .= "<li><a>{$menu["cat_title"]}</a>
+            <ul class=\"dropdown\">";
+
+            foreach($menu['sub_menu'] as $sub_menu){
+                $categories_links .= 
+                    "<li><a href=\"category.php?id={$sub_menu["sub_cat_id"]}\">{$sub_menu["sub_cat_title"]}</a></li>";
+            }
+
+            $categories_links .= '
+            </ul>
+        </li>';
+        
+    }
+
+    echo $categories_links;
 
 }
 
@@ -148,7 +184,7 @@ function get_categories(){
 
 function get_products_in_cat_page(){
 
-    $query = query("SELECT * FROM products WHERE product_category_id = " .escape_string($_GET['id']) . " ");
+    $query = query("SELECT * FROM products WHERE product_sub_cat_id = " .escape_string($_GET['id']) . " ");
     confirm($query);
 
     while($row = fetch_array($query)){
@@ -337,10 +373,14 @@ function register_user(){
     $db = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
         if(isset($_POST['submit'])){
-            $username = $_POST['username'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            $firstName = $_POST['firstName'];
+            $lastName  = $_POST['lastName'];
+            $username  = $_POST['username'];
+            $email     = $_POST['email'];
+            $password  = $_POST['password'];
 
+            $firstName = escape_string($firstName);
+            $lastName  = escape_string($lastName);
             $username  = escape_string($username);
             $email     = escape_string($email);
             $password  = escape_string(md5($password));                  
@@ -348,9 +388,18 @@ function register_user(){
             
 
             $query = "INSERT INTO users (username,email, password) VALUES ('$username', '$email', '$password')";
-            mysqli_query($db,$query)or die ('Error in updating Database');
 
-            $result = mysqli_query($db, $query);
+            mysqli_query($db,$query)or die ('Error in updating Database');
+            
+            $last_id = mysqli_insert_id($db);
+            
+            // echo '<pre>';
+            // print_r($last_id);
+            // exit;
+
+            $pro_data= "INSERT INTO profiles (user_id, firstName, lastName) VALUES ('$last_id', '$firstName', '$lastName')";
+
+            $result = mysqli_query($db, $pro_data);
             if($result)
             {
                 echo "Registration successfully";
@@ -365,7 +414,6 @@ function register_user(){
 
 function edit_profile() {
 
-
     if(isset($_POST['update'])){
 
         $firstName      = escape_string($_POST['firstName']);
@@ -378,15 +426,34 @@ function edit_profile() {
         $mobile         = escape_string($_POST['mobile']);
 
 
+        $qry = query("SELECT * FROM profiles WHERE user_id={$_SESSION['user_id']}");
+
+        confirm($qry);
+
+        $prev_profile = mysqli_fetch_assoc($qry);
+
+        // echo '<pre>';
+        // echo 'sdfsaf';
+        // print_r($prev_profile);
+        // exit;
+
+        if(!empty($prev_profile['photo'])){
+            unlink(UPLOAD_PROFILE_DIRECTORY.DS.$prev_profile['photo']);
+        }
+
         $photo = ($_FILES['file']['name']);
         $image_temp_location = ($_FILES['file']['tmp_name']);
-        $final_destination = UPLOAD_DIRECTORY.DS.$photo;
+       
+        $final_destination = UPLOAD_PROFILE_DIRECTORY.DS.$photo;
         move_uploaded_file($image_temp_location ,$final_destination);
 
        
-        $query=query("INSERT INTO profiles(firstName, lastName, street, city, state, postal_code, country, mobile, photo)VALUES('{$firstName}', '{$lastName}', '{$street}', '{$city}', '{$state}', '{$postal_code}', '{$country}', '{$mobile}', '{$photo}') WHERE user_id= {$_SESSION['user_id']} ");
+        $query=query("UPDATE profiles SET firstName='{$firstName}', lastName='{$lastName}', street='{$street}', city='{$city}', state='{$state}', postal_code='{$postal_code}', country='{$country}', mobile='{$mobile}', photo='{$photo}' WHERE user_id={$_SESSION['user_id']}");
+
         confirm($query);
+
         set_message("Profile Updated Successfully");
+        
         redirect("profile.php");
 
     }
@@ -586,7 +653,7 @@ function products_in_admin() {
                         <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="edit.php?id={$row['product_id']}">Edit</a>
+                        <a class="dropdown-item" href="index.php?edit_product&id={$row['product_id']}">Edit</a>
                         <a class="dropdown-item" href="../resources/templates/back/delete_product.php?delete_product&id={$row['product_id']}">Delete</a>
                     </div>
                 </div>
@@ -647,7 +714,7 @@ function add_product(){
 
 
 
-function show_category_name(){
+function show_category_name($parent_cat_id = NULL){
 
 
     $query = query("SELECT * FROM categories");
@@ -656,9 +723,11 @@ function show_category_name(){
     while($row = fetch_array($query)) {
 
 
+        $selected = $parent_cat_id == $row['cat_id'] ? 'selected' : '';
+
     $categories_options = <<<DELIMETER
 
-     <option value="{$row['cat_id']}">{$row['cat_title']}</option>
+     <option {$selected} value="{$row['cat_id']}">{$row['cat_title']}</option>
 
 
     DELIMETER;
@@ -727,25 +796,32 @@ function update_product(){
 
        
         $product_image = $_FILES['file']['name'];
-        $image_temp_location = $_FILES['file']['tmp_name'];
-        $final_destination = UPLOAD_DIRECTORY.DS.$product_image;
-        move_uploaded_file($image_temp_location , $final_destination);
+        
+        $prev_image_qry = query("SELECT product_image FROM products WHERE product_id =" .escape_string($_GET['id'])."");
 
-            
+        confirm($prev_image_qry);
+        
+        $row = fetch_array($prev_image_qry);
+        
+        $prev_image = $row['product_image'];
 
-        if(empty($product_image))
+        if(!empty($product_image))
         {
-            $get_pic = query("SELECT product_image FROM products WHERE product_id =" .escape_string($_GET['id'])."");
-            confirm($get_pic);
-            $row = fetch_array($get_pic);
-            $product_image = $row['product_image'];
+            $image_temp_location = $_FILES['file']['tmp_name'];
+            $final_destination = UPLOAD_DIRECTORY.DS.$product_image;
+            
+            move_uploaded_file($image_temp_location , $final_destination);
+
+            unlink(UPLOAD_DIRECTORY.DS.$prev_image);
+        } else {
+            $product_image = $prev_image;
         }
 
           // echo '<pre>';
           //   print_r(empty($query));
           //   exit;  
         
-        $query = query("UPDATE products SET product_title = '" . $_POST['product_title'] . "', product_category_id = '" . $_POST['product_category_id'] . "', brand = '" . $_POST['brand'] . "', product_price = '" . $_POST['product_price'] . "', product_quantity = '" . $_POST['product_quantity'] . "', product_description = '" . $_POST['product_description'] . "', short_desc = '" . $_POST['short_desc'] . "', product_image = '" . $_POST['product_image'] . "' WHERE product_id = ".escape_string($_GET['id'])." ");
+        $query = query("UPDATE products SET product_title = '" . $_POST['product_title'] . "', product_category_id = '" . $_POST['product_category_id'] . "', brand = '" . $_POST['brand'] . "', product_price = '" . $_POST['product_price'] . "', product_quantity = '" . $_POST['product_quantity'] . "', product_description = '" . $_POST['product_description'] . "', short_desc = '" . $_POST['short_desc'] . "', product_image = '" . $product_image . "' WHERE product_id = ".escape_string($_GET['id'])." ");
         
         $result = mysqli_query($query);
         set_message("Products has been updated !");
@@ -783,7 +859,7 @@ function categories_in_admin() {
                     </button>
                     <div class="dropdown-menu">
                         
-                        <a class="dropdown-item" href="edit_category.php?id={$row['cat_id']}">Edit</a>
+                        <a class="dropdown-item" href="index.php?edit_category&id={$row['cat_id']}">Edit</a>
 
                         <a class="dropdown-item" href="../resources/templates/back/delete_category.php?delete_category&id={$row['cat_id']}">Delete</a>
                     </div>
@@ -881,7 +957,7 @@ function sub_categories_in_admin() {
                     </button>
                     <div class="dropdown-menu">
                         
-                        <a class="dropdown-item" href="edit_category.php?id={$row['sub_cat_id']}">Edit</a>
+                        <a class="dropdown-item" href="index.php?edit_sub_category&id={$row['sub_cat_id']}">Edit</a>
 
                         <a class="dropdown-item" href="../resources/templates/back/delete_category.php?delete_category&id={$row['sub_cat_id']}">Delete</a>
                     </div>
@@ -922,6 +998,38 @@ function add_sub_category() {
 
 
         }
+
+
+}
+
+
+
+
+/***************** Update Sub Categories ******************/
+
+function update_sub_category(){
+
+    if(isset($_POST['update'])){
+
+        $sub_cat_title  = escape_string($_POST['sub_cat_title']);
+        $parent_cat_id  = escape_string($_POST['parent_cat_id']);
+        
+
+            
+        
+        $query = query("UPDATE sub_categories SET sub_cat_title = '" . $_POST['sub_cat_title'] . "', parent_cat_id = '" . $_POST['parent_cat_id'] . "' WHERE sub_cat_id= ". escape_string($_GET['id']) ." ");
+
+            // echo '<pre>';
+            // print_r(empty($query));
+            // exit; 
+
+        $result = mysqli_query($query);
+        set_message("Sub category has been updated !");
+        redirect("index.php?categories");
+
+    } else {
+        set_message("Sub category Update Failed");
+    }
 
 
 }

@@ -16,6 +16,16 @@
 					
 					<div class="form-row">
 						<div class="form-group col-lg-6">
+							<label class="font-weight-bold text-dark text-2">First Name</label>
+							<input type="text" name="firstName" value="" placeholder="Enter your firstname" class="form-control form-control-lg" required >
+						</div>
+
+						<div class="form-group col-lg-6">
+							<label class="font-weight-bold text-dark text-2">Last Name</label>
+							<input type="text" name="lastName" value="" placeholder="Enter your lastname" class="form-control form-control-lg" required >
+						</div>
+
+						<div class="form-group col-lg-6">
 							<label class="font-weight-bold text-dark text-2">Username</label>
 							<input type="text" name="username" value="" placeholder="Enter your username" class="form-control form-control-lg" required >
 						</div>

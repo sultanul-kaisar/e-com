@@ -93,5 +93,47 @@
 			}, 1000); 
 		});
 	</script>
+	<!-- Datatable -->
+	<script src="./vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script>
+		(function($) {
+			var table = $('#example5').DataTable({
+				searching: false,
+				paging:true,
+				select: false,
+				//info: false,         
+				lengthChange:false 
+				
+			});
+			var table = $('#example3').DataTable({
+				searching: false,
+				paging:true,
+				select: false,
+				//info: false,         
+				lengthChange:false 
+				
+			});
+			var table = $('#example2').DataTable({
+				searching: false,
+				paging:true,
+				select: false,
+				//info: false,         
+				lengthChange:false 
+				
+			});
+			var table = $('#example4').DataTable({
+				searching: false,
+				paging:true,
+				select: false,
+				//info: false,         
+				lengthChange:false 
+				
+			});
+			$('#example tbody').on('click', 'tr', function () {
+				var data = table.row( this ).data();
+				
+			});
+		})(jQuery);
+	</script>
 </body>
 </html>

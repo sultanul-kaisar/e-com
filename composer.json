@@ -1,0 +1,15 @@
+{
+    "name": "vendor/ecom",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Ecom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sultanul Kiasar",
+            "email": "sultanulkaisar@gmail.com"
+        }
+    ],
+    "require": {}
+}

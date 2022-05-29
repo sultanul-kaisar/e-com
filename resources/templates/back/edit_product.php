@@ -1,4 +1,5 @@
-<?php require_once("../../config.php"); ?>
+
+
 
 <?php 
 
@@ -11,12 +12,15 @@
 
             $product_title          = escape_string($row['product_title']);
             $product_category_id    = escape_string($row['product_category_id']);
+            $brand                  = escape_string($row['brand']);
             $product_price          = escape_string($row['product_price']);
             $product_description    = escape_string($row['product_description']);
             $short_desc             = escape_string($row['short_desc']);
             $product_quantity       = escape_string($row['product_quantity']);
             $product_image          = escape_string($row['product_image']);
 
+
+            $product_image = display_image($row['product_image']);
 
 
          }
@@ -28,6 +32,8 @@
 
 
  ?>
+
+ 
 
 <div class="page-titles">
     <ol class="breadcrumb">
@@ -45,7 +51,7 @@
                     <div class="card-body">                
                         <h4 class="card-title">Product Title</h4>
                         <div class="form-group">
-                            <input type="text" name="product_title" value="<?php echo $product_title; ?>" style="border-color: yellowgreen;" class="form-control input-default ">
+                            <input type="text" name="product_title" value="<?php echo $product_title; ?>" style="border-color: yellowgreen;" class="form-control input-default " placeholder="Enter the product title">
                         </div>
                     </div>
 
@@ -53,14 +59,14 @@
                     <div class="card-body">
                         <h4 class="card-title">Product Descreiption</h4>
                         <div class="form-group">
-                            <textarea style="border-color: yellowgreen;" name="product_description" cols="30" rows="8" class="form-control input-default"></textarea>
+                            <textarea style="border-color: yellowgreen;" name="product_description"  cols="30" rows="8" class="form-control input-default"><?php echo $product_description; ?></textarea>
                         </div>
                     </div>
 
                     <div class="card-body">
                         <h4 class="card-title">Product Short Descreiption</h4>
                         <div class="form-group">
-                            <textarea style="border-color: yellowgreen;" name="short_desc" cols="30" rows="4" class="form-control input-default"></textarea>
+                            <textarea style="border-color: yellowgreen;" name="short_desc" cols="30" rows="4" class="form-control input-default"><?php echo $short_desc; ?> </textarea>
                         </div>
                     </div>
                     
@@ -72,11 +78,11 @@
 
                         <input type="submit" name="update" class="btn btn-outline-success " value="Update">
                         <button type="button" class="btn btn-outline-success float-right"><a href="index.php?products">Back </a></button>
-                        <h4 class="card-title" style="margin-top:20px">Product Category</h4>
+                        <h4 class="card-title">Product Category</h4>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
-                                <select name="product_category_id" class="mr-sm-2 default-select" id="inlineFormCustomSelect">
-                                    <option selected>Select Category</option>
+                                <select class="mr-sm-2 default-select" name="product_category_id" id="inlineFormCustomSelect">
+                                    <option selected value="<?php echo $product_category_id; ?>"> <?php echo show_category_title($product_category_id); ?></option>
                                     <?php show_category_name() ?>
                                 </select>
                             </div>
@@ -84,24 +90,34 @@
 
 
                         
+                        <h4 class="card-title">Product Brand</h4>
+                        <div class="form-group">
+                            <input style="border-color: yellowgreen;" type="text" name="brand" value=" <?php echo $brand; ?>" class="form-control input-default " placeholder="Enter the product brand">
+                        </div>
+
                         <h4 class="card-title">Product Price</h4>
                         <div class="form-group">
-                            <input style="border-color: yellowgreen;" type="text" name="product_price" class="form-control input-default " placeholder="Enter the product price">
+                            <input style="border-color: yellowgreen;" type="text" name="product_price" value=" <?php echo $product_price; ?>" class="form-control input-default " placeholder="Enter the product price">
                         </div>
 
                         <h4 class="card-title" style="margin-top:10px;">Product Quantity</h4>
-                        <div class="form-group ">
-                            <input style="border-color: yellowgreen;" type="number" name="product_quantity" class="form-control input-default " placeholder="Enter the product quantity">
+                        <div class="form-row align-items-center">
+                            <div class="form-group ">
+                                <input style="border-color: yellowgreen;" type="number" name="product_quantity" value="<?php echo $product_quantity; ?>" class="form-control input-default " placeholder="Enter the product quantity">
+                            </div>
                         </div>
 
                         <h4 class="card-title" style="margin-top:10px;">Product Image</h4>
-                        <div class="form-group">
-                            <input name="file" type="file">
-                            <label for="product-title"></label>
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" name="file" class="custom-file-input" >
+                                <label class="custom-file-label">Choose file</label>         
+                            </div>
                         </div>
+                        <img width="120" src="../resources/<?php echo $product_image; ?> ">
                     </div>
                 </div>
             </div>
         </div>
     </form>         
-</div> 
+</div>

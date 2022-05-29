@@ -68,7 +68,7 @@
                     <h2 class="font-weight-normal text-7 mb-0"><strong class="font-weight-extra-bold">My</strong> Profile</h2>
                 </div>
 
-                <form role="form" method="post" class="needs-validation">
+                <form role="form" method="post" class="needs-validation" enctype="multipart/form-data">
                     <div class="form-group row" style="margin-top:20px;">
                         <label class="col-lg-3 font-weight-bold text-dark col-form-label form-control-label text-2 required">First name</label>
                         <div class="col-lg-9">

@@ -59,8 +59,8 @@
                         <h4 class="card-title" style="margin-top:20px">Product Sub Category</h4>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
-                                <select onchange="ajaxfunction(this.value)" name="product_sub_cat_id" id="sub" class="mr-sm-2 default-select">
-                                    <option>Select Sub Category</option>
+                                <select name="product_sub_cat_id" id="sub_cat_id" class="mr-sm-2">
+                                    <option value=''>Select Sub Category</option>
                                 </select>
                             </div>
                         </div>
@@ -96,13 +96,17 @@
 
 
 
-<script type="text/javascript">
-    function ajaxfunction(parent_cat_id)
+<script>
+    function ajaxfunction(cat_id)
     {
         $.ajax({
-            url: 'ajax.php?parent_cat_id=' + parent_cat_id;
-            success: function(data) {
-                $("#sub").html(data);
+            url: "ajax.php",
+            data: {cat_id},
+            success: function(response){
+
+                console.log(response);
+
+                $("#sub_cat_id").html(response);
             }
         });
     }
